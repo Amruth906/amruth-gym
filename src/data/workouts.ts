@@ -1,0 +1,541 @@
+export interface Exercise {
+  id: string;
+  name: string;
+  category: string;
+  difficulty?: 'Beginner' | 'Intermediate' | 'Advanced';
+  targetMuscles?: string[];
+  section?: string; // Add section for grouping exercises
+}
+
+export interface WorkoutDay {
+  day: string;
+  shortDay: string;
+  workout: string;
+  description: string;
+  exercises: Exercise[];
+}
+
+// Chest Exercises
+export const chestExercises: Exercise[] = [
+  { id: 'chest-1', name: 'Standard Push-Up', category: 'chest', difficulty: 'Beginner' },
+  { id: 'chest-2', name: 'Clap Push-Up', category: 'chest', difficulty: 'Advanced' },
+  { id: 'chest-3', name: 'Incline Push-Up', category: 'chest', difficulty: 'Beginner' },
+  { id: 'chest-4', name: 'Hold Push-Up', category: 'chest', difficulty: 'Intermediate' },
+  { id: 'chest-5', name: 'Shoulder Tap Push-Up', category: 'chest', difficulty: 'Intermediate' },
+  { id: 'chest-6', name: 'Circles / Hover Push-Up', category: 'chest', difficulty: 'Advanced' },
+  { id: 'chest-7', name: 'One-Leg Push-Up', category: 'chest', difficulty: 'Advanced' },
+  { id: 'chest-8', name: 'Shuffle Push-Up', category: 'chest', difficulty: 'Intermediate' },
+  { id: 'chest-9', name: 'Staggered Push-Up', category: 'chest', difficulty: 'Intermediate' },
+  { id: 'chest-10', name: 'Hindu Push-Up', category: 'chest', difficulty: 'Advanced' },
+  { id: 'chest-11', name: 'Pseudo Planche Push-Up', category: 'chest', difficulty: 'Advanced' },
+  { id: 'chest-12', name: 'Decline Push-Up', category: 'chest', difficulty: 'Intermediate' },
+  { id: 'chest-13', name: 'Wide-Grip Push-Up', category: 'chest', difficulty: 'Beginner' },
+  { id: 'chest-14', name: 'Diamond Push-Up', category: 'chest', difficulty: 'Intermediate' },
+  { id: 'chest-15', name: 'Spiderman Push-Up', category: 'chest', difficulty: 'Advanced' },
+  { id: 'chest-16', name: 'Grasshopper Push-Up', category: 'chest', difficulty: 'Advanced' },
+  { id: 'chest-17', name: 'Archer Push-Up', category: 'chest', difficulty: 'Advanced' },
+  { id: 'chest-18', name: 'Rotate Push-Up', category: 'chest', difficulty: 'Advanced' },
+  { id: 'chest-19', name: 'Bear Push-Up', category: 'chest', difficulty: 'Intermediate' },
+  { id: 'chest-20', name: 'Knee Tap Push-Up', category: 'chest', difficulty: 'Intermediate' },
+  { id: 'chest-21', name: 'Hand Release Push-Up', category: 'chest', difficulty: 'Intermediate' },
+  { id: 'chest-22', name: 'Slow Push-Up', category: 'chest', difficulty: 'Intermediate' },
+  { id: 'chest-23', name: 'Floor Chest Fly', category: 'chest', difficulty: 'Intermediate' },
+  { id: 'chest-24', name: 'Plyo Push-Up', category: 'chest', difficulty: 'Advanced' },
+  { id: 'chest-25', name: 'Chest Dips', category: 'chest', difficulty: 'Intermediate' },
+];
+
+// Back Exercises
+export const backExercises: Exercise[] = [
+  { id: 'back-1', name: 'Shoulder Shrugs', category: 'back', difficulty: 'Beginner' },
+  { id: 'back-2', name: 'Isometric Shrug Hold', category: 'back', difficulty: 'Intermediate' },
+  { id: 'back-3', name: 'Scapular Wall Shrug', category: 'back', difficulty: 'Beginner' },
+  { id: 'back-4', name: 'Wall Scapular Retractions', category: 'back', difficulty: 'Beginner' },
+  { id: 'back-5', name: 'Reverse Plank Shrugs', category: 'back', difficulty: 'Intermediate' },
+  { id: 'back-6', name: 'Hanging Scapular Depression', category: 'back', difficulty: 'Advanced' },
+  { id: 'back-7', name: 'Reverse Shrugs on Chair', category: 'back', difficulty: 'Intermediate' },
+  { id: 'back-8', name: 'Arm Circles', category: 'back', difficulty: 'Beginner' },
+  { id: 'back-9', name: 'Wall Angels', category: 'back', difficulty: 'Beginner' },
+  { id: 'back-10', name: 'Standing Y Raise', category: 'back', difficulty: 'Beginner' },
+  { id: 'back-11', name: 'Standing T Raise', category: 'back', difficulty: 'Beginner' },
+  { id: 'back-12', name: 'Prone T Raise', category: 'back', difficulty: 'Intermediate' },
+  { id: 'back-13', name: 'Prone Y Raise', category: 'back', difficulty: 'Intermediate' },
+  { id: 'back-14', name: 'Back Window', category: 'back', difficulty: 'Intermediate' },
+  { id: 'back-15', name: 'Reverse Snow Angels', category: 'back', difficulty: 'Intermediate' },
+  { id: 'back-16', name: 'Prone Cobra Hold', category: 'back', difficulty: 'Intermediate' },
+  { id: 'back-17', name: 'Pull-Ups', category: 'back', difficulty: 'Intermediate' },
+  { id: 'back-18', name: 'Wide Grip Pull-Up', category: 'back', difficulty: 'Advanced' },
+  { id: 'back-19', name: 'Neutral Grip Pull-Up', category: 'back', difficulty: 'Intermediate' },
+  { id: 'back-20', name: 'Archer Pull-Up', category: 'back', difficulty: 'Advanced' },
+  { id: 'back-21', name: 'Scapular Pull-Ups', category: 'back', difficulty: 'Intermediate' },
+  { id: 'back-22', name: 'Scapular Pull Downs', category: 'back', difficulty: 'Beginner' },
+  { id: 'back-23', name: 'Dead Hangs', category: 'back', difficulty: 'Intermediate' },
+  { id: 'back-24', name: 'Pike Push-Ups', category: 'back', difficulty: 'Intermediate' },
+  { id: 'back-25', name: 'Scapular Push-Ups', category: 'back', difficulty: 'Intermediate' },
+  { id: 'back-26', name: 'Reclined Rhomboid Squeeze', category: 'back', difficulty: 'Beginner' },
+  { id: 'back-27', name: 'Seated Back Squeeze', category: 'back', difficulty: 'Beginner' },
+  { id: 'back-28', name: 'Backpack Row', category: 'back', difficulty: 'Intermediate' },
+  { id: 'back-29', name: 'One Arm Backpack Row', category: 'back', difficulty: 'Intermediate' },
+  { id: 'back-30', name: 'Bird Dog', category: 'back', difficulty: 'Beginner' },
+  { id: 'back-31', name: 'Plank to Downward Dog', category: 'back', difficulty: 'Intermediate' },
+  { id: 'back-32', name: 'Superman Hold', category: 'back', difficulty: 'Intermediate' },
+  { id: 'back-33', name: 'Chin-Up Pull-Up', category: 'back', difficulty: 'Intermediate' },
+  { id: 'back-34', name: 'Superman Pulls', category: 'back', difficulty: 'Intermediate' },
+  { id: 'back-35', name: 'Leg Pull', category: 'back', difficulty: 'Intermediate' },
+  { id: 'back-36', name: 'Cow-Cat', category: 'back', difficulty: 'Beginner' },
+];
+
+// Arms Exercises (Triceps & Biceps)
+export const armsExercises: Exercise[] = [
+  { id: 'arms-1', name: 'Diamond Push-Up', category: 'arms', difficulty: 'Intermediate' },
+  { id: 'arms-2', name: 'Elevated Diamond Push-Up', category: 'arms', difficulty: 'Advanced' },
+  { id: 'arms-3', name: 'Close Grip Push-Up', category: 'arms', difficulty: 'Intermediate' },
+  { id: 'arms-4', name: 'Chair Dips', category: 'arms', difficulty: 'Intermediate' },
+  { id: 'arms-5', name: 'Skull Crusher on Wall', category: 'arms', difficulty: 'Intermediate' },
+  { id: 'arms-6', name: 'Bench Dips', category: 'arms', difficulty: 'Intermediate' },
+  { id: 'arms-7', name: 'Floor Tricep Dips', category: 'arms', difficulty: 'Beginner' },
+  { id: 'arms-8', name: 'Cross Elbows', category: 'arms', difficulty: 'Beginner' },
+  { id: 'arms-9', name: 'Tricep Extensions', category: 'arms', difficulty: 'Intermediate' },
+  { id: 'arms-10', name: 'Bicep Curls', category: 'arms', difficulty: 'Beginner' },
+  { id: 'arms-11', name: 'Hammer Curls', category: 'arms', difficulty: 'Beginner' },
+  { id: 'arms-12', name: 'Fingertip Push-Up', category: 'arms', difficulty: 'Advanced' },
+  { id: 'arms-13', name: 'Fingertip Wall Push-Up', category: 'arms', difficulty: 'Intermediate' },
+  { id: 'arms-14', name: 'Wall Wrist Flexor Stretch', category: 'arms', difficulty: 'Beginner' },
+  { id: 'arms-15', name: 'Wrist Circles', category: 'arms', difficulty: 'Beginner' },
+  { id: 'arms-16', name: 'Curl', category: 'arms', difficulty: 'Beginner' },
+  { id: 'arms-17', name: 'Hammer Curl', category: 'arms', difficulty: 'Beginner' },
+];
+
+// Legs Exercises
+export const legsExercises: Exercise[] = [
+  { id: 'legs-1', name: 'Bodyweight Squats', category: 'legs', difficulty: 'Beginner' },
+  { id: 'legs-2', name: 'Jump Squats', category: 'legs', difficulty: 'Intermediate' },
+  { id: 'legs-3', name: 'Heel Elevated Squats', category: 'legs', difficulty: 'Intermediate' },
+  { id: 'legs-4', name: 'Sissy Squats', category: 'legs', difficulty: 'Advanced' },
+  { id: 'legs-5', name: 'Frog Squats', category: 'legs', difficulty: 'Intermediate' },
+  { id: 'legs-6', name: 'Split Squat Hold', category: 'legs', difficulty: 'Intermediate' },
+  { id: 'legs-7', name: 'Cossack Squats', category: 'legs', difficulty: 'Advanced' },
+  { id: 'legs-8', name: 'Low Pulse Squat', category: 'legs', difficulty: 'Intermediate' },
+  { id: 'legs-9', name: 'Elevated Front Foot Split Squats', category: 'legs', difficulty: 'Advanced' },
+  { id: 'legs-10', name: 'Reverse Nordic Curls', category: 'legs', difficulty: 'Advanced' },
+  { id: 'legs-11', name: 'Deep Knee Bends (ATG Squat)', category: 'legs', difficulty: 'Advanced' },
+  { id: 'legs-12', name: 'Kneel to Stand', category: 'legs', difficulty: 'Intermediate' },
+  { id: 'legs-13', name: 'Prisoner Squats', category: 'legs', difficulty: 'Beginner' },
+  { id: 'legs-14', name: 'Feet-Elevated Wall Sits', category: 'legs', difficulty: 'Intermediate' },
+  { id: 'legs-15', name: 'Explosive Jumps', category: 'legs', difficulty: 'Advanced' },
+  { id: 'legs-16', name: 'Pistol Squat', category: 'legs', difficulty: 'Advanced' },
+  { id: 'legs-17', name: 'Hindu Squat', category: 'legs', difficulty: 'Intermediate' },
+  { id: 'legs-18', name: 'Sumo Squats', category: 'legs', difficulty: 'Beginner' },
+  { id: 'legs-19', name: 'Skater Squats', category: 'legs', difficulty: 'Advanced' },
+  { id: 'legs-20', name: 'Hover Lunges', category: 'legs', difficulty: 'Intermediate' },
+  { id: 'legs-21', name: 'Lateral Squats', category: 'legs', difficulty: 'Intermediate' },
+  { id: 'legs-22', name: 'Forward Lunges', category: 'legs', difficulty: 'Beginner' },
+  { id: 'legs-23', name: 'Walking Lunges', category: 'legs', difficulty: 'Beginner' },
+  { id: 'legs-24', name: 'Reverse Lunges', category: 'legs', difficulty: 'Beginner' },
+  { id: 'legs-25', name: 'Reverse Lunge to Knee Drive', category: 'legs', difficulty: 'Intermediate' },
+  { id: 'legs-26', name: 'Step-Back Lunges', category: 'legs', difficulty: 'Intermediate' },
+  { id: 'legs-27', name: 'Curtsy Lunges', category: 'legs', difficulty: 'Intermediate' },
+  { id: 'legs-28', name: 'Elevated Curtsy Lunge', category: 'legs', difficulty: 'Advanced' },
+  { id: 'legs-29', name: 'Bulgarian Split Squats', category: 'legs', difficulty: 'Advanced' },
+  { id: 'legs-30', name: 'Side Lunge to Knee Drive', category: 'legs', difficulty: 'Intermediate' },
+  { id: 'legs-31', name: 'Hamstring Bridge', category: 'legs', difficulty: 'Beginner' },
+  { id: 'legs-32', name: 'Single-Leg Romanian Deadlift', category: 'legs', difficulty: 'Advanced' },
+  { id: 'legs-33', name: 'Good Mornings', category: 'legs', difficulty: 'Intermediate' },
+  { id: 'legs-34', name: 'Single-Leg Good Morning', category: 'legs', difficulty: 'Advanced' },
+  { id: 'legs-35', name: 'Double Leg Hamstring Slides', category: 'legs', difficulty: 'Intermediate' },
+  { id: 'legs-36', name: 'Seated Forward Fold', category: 'legs', difficulty: 'Beginner' },
+  { id: 'legs-37', name: 'Standing Hamstring Stretch', category: 'legs', difficulty: 'Beginner' },
+  { id: 'legs-38', name: 'Calf Raises', category: 'legs', difficulty: 'Beginner' },
+  { id: 'legs-39', name: 'Single-Leg Calf Raises', category: 'legs', difficulty: 'Intermediate' },
+  { id: 'legs-40', name: 'Elevated Calf Raises', category: 'legs', difficulty: 'Intermediate' },
+  { id: 'legs-41', name: 'Wall Calf Raises', category: 'legs', difficulty: 'Beginner' },
+  { id: 'legs-42', name: 'Wall Sit Calf Raises', category: 'legs', difficulty: 'Intermediate' },
+  { id: 'legs-43', name: 'Donkey Calf Raises', category: 'legs', difficulty: 'Advanced' },
+  { id: 'legs-44', name: 'Toe Walking', category: 'legs', difficulty: 'Beginner' },
+  { id: 'legs-45', name: 'Copenhagen Plank Hold', category: 'legs', difficulty: 'Advanced' },
+  { id: 'legs-46', name: 'Inner Thigh Lift', category: 'legs', difficulty: 'Beginner' },
+  { id: 'legs-47', name: 'Seated Butterfly', category: 'legs', difficulty: 'Beginner' },
+  { id: 'legs-48', name: 'Standing Adduction', category: 'legs', difficulty: 'Intermediate' },
+  { id: 'legs-49', name: 'Basic Glute Bridge', category: 'legs', difficulty: 'Beginner' },
+  { id: 'legs-50', name: 'Elevated Glute Bridge', category: 'legs', difficulty: 'Intermediate' },
+  { id: 'legs-51', name: 'Single-Leg Glute Bridge', category: 'legs', difficulty: 'Advanced' },
+  { id: 'legs-52', name: 'Feet Elevated Glute Bridge', category: 'legs', difficulty: 'Intermediate' },
+  { id: 'legs-53', name: 'Donkey Kicks', category: 'legs', difficulty: 'Beginner' },
+  { id: 'legs-54', name: 'Fire Hydrants', category: 'legs', difficulty: 'Beginner' },
+  { id: 'legs-55', name: 'Hip Thrust', category: 'legs', difficulty: 'Intermediate' },
+  { id: 'legs-56', name: 'Glute Bridge March', category: 'legs', difficulty: 'Intermediate' },
+  { id: 'legs-57', name: 'Wall Glute March', category: 'legs', difficulty: 'Intermediate' },
+  { id: 'legs-58', name: 'Kneeling Squats', category: 'legs', difficulty: 'Intermediate' },
+  { id: 'legs-59', name: 'Frog Pumps', category: 'legs', difficulty: 'Beginner' },
+  { id: 'legs-60', name: 'Wall Kickbacks', category: 'legs', difficulty: 'Beginner' },
+  { id: 'legs-61', name: 'Single-Leg Hip Thrust', category: 'legs', difficulty: 'Advanced' },
+  { id: 'legs-62', name: 'Step-Ups', category: 'legs', difficulty: 'Intermediate' },
+  { id: 'legs-63', name: 'Wall Sit March', category: 'legs', difficulty: 'Intermediate' },
+  { id: 'legs-64', name: 'Wall Sit with Arm Raise', category: 'legs', difficulty: 'Intermediate' },
+  { id: 'legs-65', name: 'Wall Sit', category: 'legs', difficulty: 'Beginner' },
+  { id: 'legs-66', name: 'Farmer Walking', category: 'legs', difficulty: 'Intermediate' },
+  { id: 'legs-67', name: 'Lateral Step-Overs', category: 'legs', difficulty: 'Intermediate' },
+  { id: 'legs-68', name: 'Glute Bridge Hold (6 sec)', category: 'legs', difficulty: 'Intermediate' },
+  { id: 'legs-69', name: 'Hip Extension', category: 'legs', difficulty: 'Beginner' },
+  { id: 'legs-70', name: 'Side-Lying Leg Raise', category: 'legs', difficulty: 'Beginner' },
+];
+
+// Core Exercises
+export const coreExercises: Exercise[] = [
+  { id: 'core-1', name: 'Hollow Body Hold', category: 'core', difficulty: 'Intermediate' },
+  { id: 'core-2', name: 'Hollow Body Flutter Kicks', category: 'core', difficulty: 'Advanced' },
+  { id: 'core-3', name: 'Boat Pose Hold', category: 'core', difficulty: 'Intermediate' },
+  { id: 'core-4', name: 'Tuck Planche', category: 'core', difficulty: 'Advanced' },
+  { id: 'core-5', name: 'Straight Leg Sit-Ups', category: 'core', difficulty: 'Intermediate' },
+  { id: 'core-6', name: 'Toe-Tap Sit-Ups', category: 'core', difficulty: 'Intermediate' },
+  { id: 'core-7', name: 'Leg Raise', category: 'core', difficulty: 'Intermediate' },
+  { id: 'core-8', name: 'Leg Raise + Hip Lifts', category: 'core', difficulty: 'Advanced' },
+  { id: 'core-9', name: 'Reverse Crunches', category: 'core', difficulty: 'Intermediate' },
+  { id: 'core-10', name: 'Lying Ab Circles', category: 'core', difficulty: 'Advanced' },
+  { id: 'core-11', name: 'Flutter Kicks', category: 'core', difficulty: 'Intermediate' },
+  { id: 'core-12', name: 'Seated Leg Tucks', category: 'core', difficulty: 'Intermediate' },
+  { id: 'core-13', name: 'Bicycle Kicks', category: 'core', difficulty: 'Intermediate' },
+  { id: 'core-14', name: 'V-Ups', category: 'core', difficulty: 'Advanced' },
+  { id: 'core-15', name: 'Cross Body V-Ups', category: 'core', difficulty: 'Advanced' },
+  { id: 'core-16', name: 'Mountain Climbers', category: 'core', difficulty: 'Intermediate' },
+  { id: 'core-17', name: 'Side Plank Dips', category: 'core', difficulty: 'Advanced' },
+  { id: 'core-18', name: 'Russian Twists', category: 'core', difficulty: 'Intermediate' },
+  { id: 'core-19', name: 'Oblique V-Ups', category: 'core', difficulty: 'Advanced' },
+  { id: 'core-20', name: 'Lying Windshield Wiper', category: 'core', difficulty: 'Advanced' },
+  { id: 'core-21', name: 'Standing Oblique Crunch', category: 'core', difficulty: 'Beginner' },
+  { id: 'core-22', name: 'Standing Crunch to Knee Drive', category: 'core', difficulty: 'Intermediate' },
+  { id: 'core-23', name: 'Twisted Bear Crawl', category: 'core', difficulty: 'Advanced' },
+  { id: 'core-24', name: 'Triangle Crunches', category: 'core', difficulty: 'Intermediate' },
+  { id: 'core-25', name: 'Stomach Vacuum', category: 'core', difficulty: 'Intermediate' },
+  { id: 'core-26', name: 'Dead Bug', category: 'core', difficulty: 'Beginner' },
+  { id: 'core-27', name: 'Heel Touch', category: 'core', difficulty: 'Beginner' },
+  { id: 'core-28', name: 'Starfish', category: 'core', difficulty: 'Advanced' },
+];
+
+// Create specific exercise arrays for the new workout days
+const push1Exercises: Exercise[] = [
+  // Chest exercises for strength focus
+  { id: 'push1-1', name: 'Standard Push-Up', category: 'chest', difficulty: 'Beginner' },
+  { id: 'push1-2', name: 'Incline Push-Up', category: 'chest', difficulty: 'Beginner' },
+  { id: 'push1-3', name: 'Decline Push-Up', category: 'chest', difficulty: 'Intermediate' },
+  { id: 'push1-4', name: 'Wide-Grip Push-Up', category: 'chest', difficulty: 'Beginner' },
+  { id: 'push1-5', name: 'Diamond Push-Up', category: 'chest', difficulty: 'Intermediate' },
+  { id: 'push1-6', name: 'Close Grip Push-Up', category: 'arms', difficulty: 'Intermediate' },
+  { id: 'push1-7', name: 'Skull Crusher on Wall', category: 'arms', difficulty: 'Intermediate' },
+  { id: 'push1-8', name: 'Elevated Diamond Push-Up', category: 'arms', difficulty: 'Advanced' },
+  { id: 'push1-9', name: 'Chair Dips', category: 'arms', difficulty: 'Intermediate' },
+  { id: 'push1-10', name: 'Floor Tricep Dips', category: 'arms', difficulty: 'Beginner' },
+  { id: 'push1-11', name: 'Tricep Extensions', category: 'arms', difficulty: 'Intermediate' },
+  { id: 'push1-12', name: 'Floor Chest Fly', category: 'chest', difficulty: 'Intermediate' },
+  { id: 'push1-13', name: 'Hand Release Push-Up', category: 'chest', difficulty: 'Intermediate' },
+  { id: 'push1-14', name: 'Chest Dips', category: 'chest', difficulty: 'Intermediate' },
+];
+
+const pull1Exercises: Exercise[] = [
+  // Pull exercises with scapular focus
+  { id: 'pull1-1', name: 'Pull-Ups', category: 'back', difficulty: 'Intermediate' },
+  { id: 'pull1-2', name: 'Chin-Up Pull-Up', category: 'back', difficulty: 'Intermediate' },
+  { id: 'pull1-3', name: 'Wide Grip Pull-Up', category: 'back', difficulty: 'Advanced' },
+  { id: 'pull1-4', name: 'Neutral Grip Pull-Up', category: 'back', difficulty: 'Intermediate' },
+  { id: 'pull1-5', name: 'Scapular Pull-Ups', category: 'back', difficulty: 'Intermediate' },
+  { id: 'pull1-6', name: 'Dead Hangs', category: 'back', difficulty: 'Intermediate' },
+  { id: 'pull1-7', name: 'Hanging Scapular Depression', category: 'back', difficulty: 'Advanced' },
+  { id: 'pull1-8', name: 'Scapular Wall Shrug', category: 'back', difficulty: 'Beginner' },
+  { id: 'pull1-9', name: 'Reverse Plank Shrugs', category: 'back', difficulty: 'Intermediate' },
+  { id: 'pull1-10', name: 'Reclined Rhomboid Squeeze', category: 'back', difficulty: 'Beginner' },
+  { id: 'pull1-11', name: 'Seated Back Squeeze', category: 'back', difficulty: 'Beginner' },
+  { id: 'pull1-12', name: 'Backpack Row', category: 'back', difficulty: 'Intermediate' },
+  { id: 'pull1-13', name: 'One Arm Backpack Row', category: 'back', difficulty: 'Intermediate' },
+  { id: 'pull1-14', name: 'Curl', category: 'arms', difficulty: 'Beginner' },
+  { id: 'pull1-15', name: 'Hammer Curl', category: 'arms', difficulty: 'Beginner' },
+];
+
+const push2Exercises: Exercise[] = [
+  // Explosive and mobility focused push exercises
+  { id: 'push2-1', name: 'Plyo Push-Up', category: 'chest', difficulty: 'Advanced' },
+  { id: 'push2-2', name: 'Clap Push-Up', category: 'chest', difficulty: 'Advanced' },
+  { id: 'push2-3', name: 'Spiderman Push-Up', category: 'chest', difficulty: 'Advanced' },
+  { id: 'push2-4', name: 'Grasshopper Push-Up', category: 'chest', difficulty: 'Advanced' },
+  { id: 'push2-5', name: 'Bear Push-Up', category: 'chest', difficulty: 'Intermediate' },
+  { id: 'push2-6', name: 'Archer Push-Up', category: 'chest', difficulty: 'Advanced' },
+  { id: 'push2-7', name: 'Rotate Push-Up', category: 'chest', difficulty: 'Advanced' },
+  { id: 'push2-8', name: 'Circles / Hover Push-Up', category: 'chest', difficulty: 'Advanced' },
+  { id: 'push2-9', name: 'Shoulder Tap Push-Up', category: 'chest', difficulty: 'Intermediate' },
+  { id: 'push2-10', name: 'Shuffle Push-Up', category: 'chest', difficulty: 'Intermediate' },
+  { id: 'push2-11', name: 'Staggered Push-Up', category: 'chest', difficulty: 'Intermediate' },
+  { id: 'push2-12', name: 'One-Leg Push-Up', category: 'chest', difficulty: 'Advanced' },
+  { id: 'push2-13', name: 'Prone T Raise', category: 'back', difficulty: 'Intermediate' },
+  { id: 'push2-14', name: 'Prone Y Raise', category: 'back', difficulty: 'Intermediate' },
+  { id: 'push2-15', name: 'Standing Y Raise', category: 'back', difficulty: 'Beginner' },
+  { id: 'push2-16', name: 'Standing T Raise', category: 'back', difficulty: 'Beginner' },
+  { id: 'push2-17', name: 'Wall Angels', category: 'back', difficulty: 'Beginner' },
+  { id: 'push2-18', name: 'Arm Circles', category: 'back', difficulty: 'Beginner' },
+  { id: 'push2-19', name: 'Back Window', category: 'back', difficulty: 'Intermediate' },
+];
+
+const pull2Exercises: Exercise[] = [
+  // Back isolation and grip focused exercises
+  { id: 'pull2-1', name: 'Archer Pull-Up', category: 'back', difficulty: 'Advanced' },
+  { id: 'pull2-2', name: 'Scapular Pull Downs', category: 'back', difficulty: 'Beginner' },
+  { id: 'pull2-3', name: 'Reverse Shrugs on Chair', category: 'back', difficulty: 'Intermediate' },
+  { id: 'pull2-4', name: 'Shoulder Shrugs', category: 'back', difficulty: 'Beginner' },
+  { id: 'pull2-5', name: 'Isometric Shrug Hold', category: 'back', difficulty: 'Intermediate' },
+  { id: 'pull2-6', name: 'Wall Scapular Retractions', category: 'back', difficulty: 'Beginner' },
+  { id: 'pull2-7', name: 'Superman Pulls', category: 'back', difficulty: 'Intermediate' },
+  { id: 'pull2-8', name: 'Superman Hold', category: 'back', difficulty: 'Intermediate' },
+  { id: 'pull2-9', name: 'Bird Dog', category: 'back', difficulty: 'Beginner' },
+  { id: 'pull2-10', name: 'Leg Pull', category: 'back', difficulty: 'Intermediate' },
+  { id: 'pull2-11', name: 'Cow-Cat', category: 'back', difficulty: 'Beginner' },
+  { id: 'pull2-12', name: 'Fingertip Push-Up', category: 'arms', difficulty: 'Advanced' },
+  { id: 'pull2-13', name: 'Fingertip Wall Push-Up', category: 'arms', difficulty: 'Intermediate' },
+  { id: 'pull2-14', name: 'Wall Wrist Flexor Stretch', category: 'arms', difficulty: 'Beginner' },
+  { id: 'pull2-15', name: 'Wrist Circles', category: 'arms', difficulty: 'Beginner' },
+  { id: 'pull2-16', name: 'Scapular Push-Ups', category: 'back', difficulty: 'Intermediate' },
+];
+
+// LEG DAY 1 - Quad-Dominant + Strength
+const legDay1Exercises: Exercise[] = [
+  // Warm-Up
+  { id: 'leg1-1', name: 'Wall Sit March', category: 'legs', difficulty: 'Intermediate', section: 'Warm-Up' },
+  { id: 'leg1-2', name: 'Copenhagen Plank Hold', category: 'legs', difficulty: 'Advanced', section: 'Warm-Up' },
+  { id: 'leg1-3', name: 'Lateral Step-Overs', category: 'legs', difficulty: 'Intermediate', section: 'Warm-Up' },
+  
+  // Primary Compounds
+  { id: 'leg1-4', name: 'Bulgarian Split Squats', category: 'legs', difficulty: 'Advanced', section: 'Primary Compounds' },
+  { id: 'leg1-5', name: 'Bodyweight Squats', category: 'legs', difficulty: 'Beginner', section: 'Primary Compounds' },
+  { id: 'leg1-6', name: 'Prisoner Squats', category: 'legs', difficulty: 'Beginner', section: 'Primary Compounds' },
+  { id: 'leg1-7', name: 'Elevated Front Foot Split Squats', category: 'legs', difficulty: 'Advanced', section: 'Primary Compounds' },
+  
+  // Quads Strength & Variations
+  { id: 'leg1-8', name: 'Jump Squats', category: 'legs', difficulty: 'Intermediate', section: 'Quads Strength & Variations' },
+  { id: 'leg1-9', name: 'Heel Elevated Squats', category: 'legs', difficulty: 'Intermediate', section: 'Quads Strength & Variations' },
+  { id: 'leg1-10', name: 'Sissy Squats', category: 'legs', difficulty: 'Advanced', section: 'Quads Strength & Variations' },
+  { id: 'leg1-11', name: 'Low Pulse Squat', category: 'legs', difficulty: 'Intermediate', section: 'Quads Strength & Variations' },
+  { id: 'leg1-12', name: 'Deep Knee Bends (ATG Squat)', category: 'legs', difficulty: 'Advanced', section: 'Quads Strength & Variations' },
+  { id: 'leg1-13', name: 'Kneel to Stand', category: 'legs', difficulty: 'Intermediate', section: 'Quads Strength & Variations' },
+  { id: 'leg1-14', name: 'Hover Lunges', category: 'legs', difficulty: 'Intermediate', section: 'Quads Strength & Variations' },
+  
+  // Lunge Family
+  { id: 'leg1-15', name: 'Forward Lunges', category: 'legs', difficulty: 'Beginner', section: 'Lunge Family' },
+  { id: 'leg1-16', name: 'Walking Lunges', category: 'legs', difficulty: 'Beginner', section: 'Lunge Family' },
+  { id: 'leg1-17', name: 'Step-Back Lunges', category: 'legs', difficulty: 'Intermediate', section: 'Lunge Family' },
+  { id: 'leg1-18', name: 'Step-Back Lunge with Forward Lean', category: 'legs', difficulty: 'Intermediate', section: 'Lunge Family' },
+  
+  // Hamstring / Hip Hinge
+  { id: 'leg1-19', name: 'Good Mornings', category: 'legs', difficulty: 'Intermediate', section: 'Hamstring / Hip Hinge' },
+  { id: 'leg1-20', name: 'Single-Leg Romanian Deadlift', category: 'legs', difficulty: 'Advanced', section: 'Hamstring / Hip Hinge' },
+  { id: 'leg1-21', name: 'Hamstring Bridge', category: 'legs', difficulty: 'Beginner', section: 'Hamstring / Hip Hinge' },
+  { id: 'leg1-22', name: 'Reverse Nordic Curls', category: 'legs', difficulty: 'Advanced', section: 'Hamstring / Hip Hinge' },
+  
+  // Glutes & Bridges
+  { id: 'leg1-23', name: 'Basic Glute Bridge', category: 'legs', difficulty: 'Beginner', section: 'Glutes & Bridges' },
+  { id: 'leg1-24', name: 'Elevated Glute Bridge', category: 'legs', difficulty: 'Intermediate', section: 'Glutes & Bridges' },
+  { id: 'leg1-25', name: 'Single-Leg Glute Bridge', category: 'legs', difficulty: 'Advanced', section: 'Glutes & Bridges' },
+  { id: 'leg1-26', name: 'Wall Kickbacks', category: 'legs', difficulty: 'Beginner', section: 'Glutes & Bridges' },
+  { id: 'leg1-27', name: 'Donkey Kicks', category: 'legs', difficulty: 'Beginner', section: 'Glutes & Bridges' },
+  { id: 'leg1-28', name: 'Fire Hydrants', category: 'legs', difficulty: 'Beginner', section: 'Glutes & Bridges' },
+  { id: 'leg1-29', name: 'Wall Glute March', category: 'legs', difficulty: 'Intermediate', section: 'Glutes & Bridges' },
+  
+  // Calves
+  { id: 'leg1-30', name: 'Standing Calf Raises', category: 'legs', difficulty: 'Beginner', section: 'Calves' },
+  { id: 'leg1-31', name: 'Single-Leg Calf Raises', category: 'legs', difficulty: 'Intermediate', section: 'Calves' },
+  { id: 'leg1-32', name: 'Wall Sit Calf Raises', category: 'legs', difficulty: 'Intermediate', section: 'Calves' },
+  { id: 'leg1-33', name: 'Lunge Hold Calf Raises', category: 'legs', difficulty: 'Intermediate', section: 'Calves' },
+  { id: 'leg1-34', name: 'Toe Walking', category: 'legs', difficulty: 'Beginner', section: 'Calves' },
+  
+  // Core & Finishers
+  { id: 'leg1-35', name: 'Seated Butterfly', category: 'legs', difficulty: 'Beginner', section: 'Core & Finishers' },
+  { id: 'leg1-36', name: 'Inner Thigh Lift', category: 'legs', difficulty: 'Beginner', section: 'Core & Finishers' },
+  { id: 'leg1-37', name: 'Standing Adduction', category: 'legs', difficulty: 'Intermediate', section: 'Core & Finishers' },
+  { id: 'leg1-38', name: 'Glute Bridge Hold (6 sec)', category: 'legs', difficulty: 'Intermediate', section: 'Core & Finishers' },
+  { id: 'leg1-39', name: 'Farmer Walking', category: 'legs', difficulty: 'Intermediate', section: 'Core & Finishers' },
+  { id: 'leg1-40', name: 'Wall Sit', category: 'legs', difficulty: 'Beginner', section: 'Core & Finishers' },
+];
+
+// LEG DAY 2 - Glute/Posterior/Explosive Focus
+const legDay2Exercises: Exercise[] = [
+  // Warm-Up
+  { id: 'leg2-1', name: 'Wall Sit with Arm Raise', category: 'legs', difficulty: 'Intermediate', section: 'Warm-Up' },
+  { id: 'leg2-2', name: 'Lateral Squats', category: 'legs', difficulty: 'Intermediate', section: 'Warm-Up' },
+  { id: 'leg2-3', name: 'Hip Extension', category: 'legs', difficulty: 'Beginner', section: 'Warm-Up' },
+  
+  // Primary Compounds
+  { id: 'leg2-4', name: 'Step-Ups', category: 'legs', difficulty: 'Intermediate', section: 'Primary Compounds' },
+  { id: 'leg2-5', name: 'Skater Squats', category: 'legs', difficulty: 'Advanced', section: 'Primary Compounds' },
+  { id: 'leg2-6', name: 'Hover Lunges', category: 'legs', difficulty: 'Intermediate', section: 'Primary Compounds' },
+  { id: 'leg2-7', name: 'Side Lunge to Knee Drive', category: 'legs', difficulty: 'Intermediate', section: 'Primary Compounds' },
+  
+  // Athletic & Explosive
+  { id: 'leg2-8', name: 'Explosive Jumps', category: 'legs', difficulty: 'Advanced', section: 'Athletic & Explosive' },
+  { id: 'leg2-9', name: 'Pistol Squat', category: 'legs', difficulty: 'Advanced', section: 'Athletic & Explosive' },
+  { id: 'leg2-10', name: 'Hindu Squat', category: 'legs', difficulty: 'Intermediate', section: 'Athletic & Explosive' },
+  
+  // Lunge Variations
+  { id: 'leg2-11', name: 'Reverse Lunge to Knee Drive', category: 'legs', difficulty: 'Intermediate', section: 'Lunge Variations' },
+  { id: 'leg2-12', name: 'Curtsy Lunges', category: 'legs', difficulty: 'Intermediate', section: 'Lunge Variations' },
+  { id: 'leg2-13', name: 'Elevated Curtsy Lunge', category: 'legs', difficulty: 'Advanced', section: 'Lunge Variations' },
+  { id: 'leg2-14', name: 'Reverse Leg Lift', category: 'legs', difficulty: 'Intermediate', section: 'Lunge Variations' },
+  
+  // Glutes Bridges & Hip Thrusts
+  { id: 'leg2-15', name: 'Hip Thrust', category: 'legs', difficulty: 'Intermediate', section: 'Glutes Bridges & Hip Thrusts' },
+  { id: 'leg2-16', name: 'Single-Leg Hip Thrust', category: 'legs', difficulty: 'Advanced', section: 'Glutes Bridges & Hip Thrusts' },
+  { id: 'leg2-17', name: 'Glute Bridge March', category: 'legs', difficulty: 'Intermediate', section: 'Glutes Bridges & Hip Thrusts' },
+  { id: 'leg2-18', name: 'Frog Pumps', category: 'legs', difficulty: 'Beginner', section: 'Glutes Bridges & Hip Thrusts' },
+  { id: 'leg2-19', name: 'Kneeling Squats', category: 'legs', difficulty: 'Intermediate', section: 'Glutes Bridges & Hip Thrusts' },
+  { id: 'leg2-20', name: 'Wall Kickbacks', category: 'legs', difficulty: 'Beginner', section: 'Glutes Bridges & Hip Thrusts' },
+  
+  // Hamstring & Hip Hinge
+  { id: 'leg2-21', name: 'Double Leg Hamstring Slides', category: 'legs', difficulty: 'Intermediate', section: 'Hamstring & Hip Hinge' },
+  { id: 'leg2-22', name: 'Single-Leg Good Morning', category: 'legs', difficulty: 'Advanced', section: 'Hamstring & Hip Hinge' },
+  { id: 'leg2-23', name: 'Lying Hamstring Strap Stretch', category: 'legs', difficulty: 'Beginner', section: 'Hamstring & Hip Hinge' },
+  { id: 'leg2-24', name: 'Seated Forward Fold', category: 'legs', difficulty: 'Beginner', section: 'Hamstring & Hip Hinge' },
+  { id: 'leg2-25', name: 'Standing Hamstring Stretch', category: 'legs', difficulty: 'Beginner', section: 'Hamstring & Hip Hinge' },
+  { id: 'leg2-26', name: 'Superman', category: 'legs', difficulty: 'Intermediate', section: 'Hamstring & Hip Hinge' },
+  
+  // Calves Focus
+  { id: 'leg2-27', name: 'Paused Calf Raises', category: 'legs', difficulty: 'Intermediate', section: 'Calves Focus' },
+  { id: 'leg2-28', name: 'Elevated Calf Raises', category: 'legs', difficulty: 'Intermediate', section: 'Calves Focus' },
+  { id: 'leg2-29', name: 'Toes-In Calf Raises', category: 'legs', difficulty: 'Intermediate', section: 'Calves Focus' },
+  { id: 'leg2-30', name: 'Toes-Out Calf Raises', category: 'legs', difficulty: 'Intermediate', section: 'Calves Focus' },
+  { id: 'leg2-31', name: 'Wall Calf Raises', category: 'legs', difficulty: 'Beginner', section: 'Calves Focus' },
+  { id: 'leg2-32', name: 'Donkey Calf Raises', category: 'legs', difficulty: 'Advanced', section: 'Calves Focus' },
+  
+  // Bridges & Core Stability
+  { id: 'leg2-33', name: 'Frog Squats', category: 'legs', difficulty: 'Intermediate', section: 'Bridges & Core Stability' },
+  { id: 'leg2-34', name: 'Cossack Squats', category: 'legs', difficulty: 'Advanced', section: 'Bridges & Core Stability' },
+  { id: 'leg2-35', name: 'Split Squat Hold (Isometric)', category: 'legs', difficulty: 'Intermediate', section: 'Bridges & Core Stability' },
+  { id: 'leg2-36', name: 'Glute Bridge March', category: 'legs', difficulty: 'Intermediate', section: 'Bridges & Core Stability' },
+  { id: 'leg2-37', name: 'Wall Glute March', category: 'legs', difficulty: 'Intermediate', section: 'Bridges & Core Stability' },
+  
+  // Mobility & Finishers
+  { id: 'leg2-38', name: 'Toe Walking', category: 'legs', difficulty: 'Beginner', section: 'Mobility & Finishers' },
+  { id: 'leg2-39', name: 'Farmer Walking', category: 'legs', difficulty: 'Intermediate', section: 'Mobility & Finishers' },
+  { id: 'leg2-40', name: 'Lateral Step-Overs', category: 'legs', difficulty: 'Intermediate', section: 'Mobility & Finishers' },
+];
+
+// SUNDAY - ABS/CORE DAY
+const sundayCoreExercises: Exercise[] = [
+  { id: 'core-sun-1', name: 'Hollow Body Hold', category: 'core', difficulty: 'Intermediate' },
+  { id: 'core-sun-2', name: 'Hollow Body Flutter Kicks', category: 'core', difficulty: 'Advanced' },
+  { id: 'core-sun-3', name: 'Boat Pose Hold', category: 'core', difficulty: 'Intermediate' },
+  { id: 'core-sun-4', name: 'Tuck Planche', category: 'core', difficulty: 'Advanced' },
+  { id: 'core-sun-5', name: 'Straight Leg Sit-Ups', category: 'core', difficulty: 'Intermediate' },
+  { id: 'core-sun-6', name: 'Toe-Tap Sit-Ups', category: 'core', difficulty: 'Intermediate' },
+  { id: 'core-sun-7', name: 'Leg Raise', category: 'core', difficulty: 'Intermediate' },
+  { id: 'core-sun-8', name: 'Leg Raise + Hip Lifts', category: 'core', difficulty: 'Advanced' },
+  { id: 'core-sun-9', name: 'Reverse Crunches', category: 'core', difficulty: 'Intermediate' },
+  { id: 'core-sun-10', name: 'Lying Ab Circles', category: 'core', difficulty: 'Advanced' },
+  { id: 'core-sun-11', name: 'Flutter Kicks', category: 'core', difficulty: 'Intermediate' },
+  { id: 'core-sun-12', name: 'Seated Leg Tucks', category: 'core', difficulty: 'Intermediate' },
+  { id: 'core-sun-13', name: 'Bicycle Kicks', category: 'core', difficulty: 'Intermediate' },
+  { id: 'core-sun-14', name: 'V-Ups', category: 'core', difficulty: 'Advanced' },
+  { id: 'core-sun-15', name: 'Cross Body V-Ups', category: 'core', difficulty: 'Advanced' },
+  { id: 'core-sun-16', name: 'Mountain Climbers', category: 'core', difficulty: 'Intermediate' },
+  { id: 'core-sun-17', name: 'Side Plank Dips', category: 'core', difficulty: 'Advanced' },
+  { id: 'core-sun-18', name: 'Russian Twists', category: 'core', difficulty: 'Intermediate' },
+  { id: 'core-sun-19', name: 'Oblique V-Ups', category: 'core', difficulty: 'Advanced' },
+  { id: 'core-sun-20', name: 'Lying Windshield Wiper', category: 'core', difficulty: 'Advanced' },
+  { id: 'core-sun-21', name: 'Standing Oblique Crunch', category: 'core', difficulty: 'Beginner' },
+  { id: 'core-sun-22', name: 'Standing Crunch to Knee Drive', category: 'core', difficulty: 'Intermediate' },
+  { id: 'core-sun-23', name: 'Twisted Bear Crawl', category: 'core', difficulty: 'Advanced' },
+  { id: 'core-sun-24', name: 'Triangle Crunches', category: 'core', difficulty: 'Intermediate' },
+  { id: 'core-sun-25', name: 'Stomach Vacuum', category: 'core', difficulty: 'Intermediate' },
+  { id: 'core-sun-26', name: 'Dead Bug', category: 'core', difficulty: 'Beginner' },
+  { id: 'core-sun-27', name: 'Heel Touch', category: 'core', difficulty: 'Beginner' },
+  { id: 'core-sun-28', name: 'Starfish', category: 'core', difficulty: 'Advanced' },
+];
+
+// Updated Weekly Schedule with comprehensive 7-day program
+export const weeklySchedule: WorkoutDay[] = [
+  {
+    day: 'Monday',
+    shortDay: 'MON',
+    workout: 'Push 1',
+    description: 'Strength Focus: Chest + Triceps',
+    exercises: push1Exercises
+  },
+  {
+    day: 'Tuesday',
+    shortDay: 'TUE',
+    workout: 'Pull 1',
+    description: 'Pull Strength + Scapular + Biceps',
+    exercises: pull1Exercises
+  },
+  {
+    day: 'Wednesday',
+    shortDay: 'WED',
+    workout: 'Leg Day 1',
+    description: 'Quad-Dominant + Strength',
+    exercises: legDay1Exercises
+  },
+  {
+    day: 'Thursday',
+    shortDay: 'THU',
+    workout: 'Push 2',
+    description: 'Mobility + Shoulder + Explosiveness',
+    exercises: push2Exercises
+  },
+  {
+    day: 'Friday',
+    shortDay: 'FRI',
+    workout: 'Pull 2',
+    description: 'Back Isolation, Grip, Dynamic Holds',
+    exercises: pull2Exercises
+  },
+  {
+    day: 'Saturday',
+    shortDay: 'SAT',
+    workout: 'Leg Day 2',
+    description: 'Glute/Posterior/Explosive Focus',
+    exercises: legDay2Exercises
+  },
+  {
+    day: 'Sunday',
+    shortDay: 'SUN',
+    workout: 'Abs/Core',
+    description: 'Complete Core & Abdominal Training',
+    exercises: sundayCoreExercises
+  }
+];
+
+export const workoutCategories = [
+  {
+    id: 'chest',
+    name: 'Chest',
+    description: 'Push-ups and chest-focused exercises',
+    exercises: chestExercises,
+    icon: '💪',
+    color: 'bg-gradient-to-br from-red-500 to-red-600'
+  },
+  {
+    id: 'back',
+    name: 'Back',
+    description: 'Pull-ups, rows and back strengthening',
+    exercises: backExercises,
+    icon: '🏋️',
+    color: 'bg-gradient-to-br from-blue-500 to-blue-600'
+  },
+  {
+    id: 'arms',
+    name: 'Arms',
+    description: 'Biceps, triceps and arm workouts',
+    exercises: armsExercises,
+    icon: '💥',
+    color: 'bg-gradient-to-br from-green-500 to-green-600'
+  },
+  {
+    id: 'legs',
+    name: 'Legs',
+    description: 'Squats, lunges and lower body',
+    exercises: legsExercises,
+    icon: '🦵',
+    color: 'bg-gradient-to-br from-purple-500 to-purple-600'
+  },
+  {
+    id: 'core',
+    name: 'Core',
+    description: 'Abs, obliques and core stability',
+    exercises: coreExercises,
+    icon: '⭐',
+    color: 'bg-gradient-to-br from-orange-500 to-orange-600'
+  }
+];
