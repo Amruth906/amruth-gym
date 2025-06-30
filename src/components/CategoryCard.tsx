@@ -8,7 +8,6 @@ interface CategoryCardProps {
   description: string;
   exerciseCount: number;
   icon: string;
-  color: string;
   index: number;
 }
 
@@ -18,7 +17,6 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({
   description,
   exerciseCount,
   icon,
-  color,
   index,
 }) => {
   const navigate = useNavigate();

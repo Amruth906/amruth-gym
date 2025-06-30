@@ -17,9 +17,14 @@ const GoogleLogin = () => {
       const result = await signInWithPopup(auth, provider);
       console.log("Google User:", result.user);
       navigate("/");
-    } catch (error: any) {
-      console.error("Google Login Error:", error);
-      setError(error.message || "Google login failed");
+    } catch (error: unknown) {
+      if (typeof error === "object" && error && "message" in error) {
+        const err = error as { message?: string };
+        setError(err.message || "Google login failed");
+        console.error("Google Login Error:", err);
+      } else {
+        setError("Google login failed");
+      }
     } finally {
       setLoading(false);
     }

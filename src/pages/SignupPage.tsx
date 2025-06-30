@@ -4,15 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
 import { useAuth } from "../context/AuthContext";
-import {
-  Sparkles,
-  Zap,
-  Target,
-  TrendingUp,
-  UserPlus,
-  Shield,
-  Award,
-} from "lucide-react";
+import { Sparkles, Zap, UserPlus, Shield, Award } from "lucide-react";
 
 export const SignupPage = () => {
   const [email, setEmail] = useState("");
@@ -41,22 +33,26 @@ export const SignupPage = () => {
       setLoading(true);
       await createUserWithEmailAndPassword(auth, email, password);
       navigate("/");
-    } catch (error: any) {
-      console.error("Signup Error:", error);
-
-      // Provide user-friendly error messages
-      if (error.code === "auth/email-already-in-use") {
-        setError(
-          "An account with this email already exists. Please sign in instead."
-        );
-      } else if (error.code === "auth/invalid-email") {
-        setError("Please enter a valid email address.");
-      } else if (error.code === "auth/weak-password") {
-        setError("Password should be at least 6 characters long.");
-      } else if (error.code === "auth/too-many-requests") {
-        setError("Too many failed attempts. Please try again later.");
-      } else if (error.code === "auth/network-request-failed") {
-        setError("Network error. Please check your internet connection.");
+    } catch (error: unknown) {
+      if (typeof error === "object" && error && "code" in error) {
+        const err = error as { code?: string; message?: string };
+        console.error("Signup Error:", err);
+        // Provide user-friendly error messages
+        if (err.code === "auth/email-already-in-use") {
+          setError(
+            "An account with this email already exists. Please sign in instead."
+          );
+        } else if (err.code === "auth/invalid-email") {
+          setError("Please enter a valid email address.");
+        } else if (err.code === "auth/weak-password") {
+          setError("Password should be at least 6 characters long.");
+        } else if (err.code === "auth/too-many-requests") {
+          setError("Too many failed attempts. Please try again later.");
+        } else if (err.code === "auth/network-request-failed") {
+          setError("Network error. Please check your internet connection.");
+        } else {
+          setError("Failed to create account. Please try again.");
+        }
       } else {
         setError("Failed to create account. Please try again.");
       }

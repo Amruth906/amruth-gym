@@ -70,16 +70,21 @@ const PhoneLogin = () => {
       setConfirmation(confirmationResult);
       setOtpSent(true);
       console.log("OTP sent!");
-    } catch (error: any) {
-      console.error("SMS Error:", error);
-      if (error.code === "auth/invalid-phone-number") {
-        setError(
-          "Invalid phone number format. Please use format: +91XXXXXXXXXX"
-        );
-      } else if (error.code === "auth/too-many-requests") {
-        setError("Too many attempts. Please try again later.");
+    } catch (error: unknown) {
+      if (typeof error === "object" && error && "code" in error) {
+        const err = error as { code?: string; message?: string };
+        console.error("SMS Error:", err);
+        if (err.code === "auth/invalid-phone-number") {
+          setError(
+            "Invalid phone number format. Please use format: +91XXXXXXXXXX"
+          );
+        } else if (err.code === "auth/too-many-requests") {
+          setError("Too many attempts. Please try again later.");
+        } else {
+          setError(err.message || "Failed to send OTP");
+        }
       } else {
-        setError(error.message || "Failed to send OTP");
+        setError("Failed to send OTP");
       }
     } finally {
       setLoading(false);
@@ -104,9 +109,14 @@ const PhoneLogin = () => {
       const result = await confirmation.confirm(otp);
       console.log("Phone User:", result.user);
       navigate("/");
-    } catch (error: any) {
-      console.error("OTP Error:", error);
-      setError(error.message || "Invalid OTP");
+    } catch (error: unknown) {
+      if (typeof error === "object" && error && "message" in error) {
+        const err = error as { message?: string };
+        setError(err.message || "Invalid OTP");
+        console.error("OTP Error:", err);
+      } else {
+        setError("Invalid OTP");
+      }
     } finally {
       setLoading(false);
     }

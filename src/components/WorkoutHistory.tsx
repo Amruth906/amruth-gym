@@ -1,30 +1,13 @@
 import React, { useState, useEffect } from "react";
-import {
-  Calendar,
-  Trash2,
-  TrendingUp,
-  Clock,
-  Flame,
-  Loader2,
-  RefreshCw,
-} from "lucide-react";
+import { Calendar, TrendingUp, Clock, Flame, Loader2 } from "lucide-react";
 import { WorkoutSession } from "../types/workout";
-import {
-  getWorkoutSessions,
-  deleteWorkoutSession,
-  getWorkoutStats,
-  migrateFromLocalStorage,
-  clearAllWorkoutData,
-} from "../utils/firebaseStorage";
-import { onValue, ref, off } from "firebase/database";
+import { onValue, ref } from "firebase/database";
 import { db, auth } from "../firebase";
 
 export const WorkoutHistory: React.FC = () => {
   const [sessions, setSessions] = useState<WorkoutSession[]>([]);
   const [selectedDate, setSelectedDate] = useState<string>("");
   const [loading, setLoading] = useState(true);
-  const [deletingSession, setDeletingSession] = useState<string | null>(null);
-  const [clearingData, setClearingData] = useState(false);
   const [stats, setStats] = useState({
     totalSessions: 0,
     totalCalories: 0,
@@ -38,9 +21,6 @@ export const WorkoutHistory: React.FC = () => {
     const initializeData = async () => {
       setLoading(true);
       try {
-        // First, try to migrate any existing localStorage data
-        await migrateFromLocalStorage();
-
         // Set up real-time listener
         unsubscribe = setupRealtimeListener();
       } catch (error) {
@@ -138,44 +118,6 @@ export const WorkoutHistory: React.FC = () => {
     return unsubscribe;
   };
 
-  const handleDeleteSession = async (sessionId: string) => {
-    if (
-      window.confirm("Are you sure you want to delete this workout session?")
-    ) {
-      setDeletingSession(sessionId);
-      try {
-        await deleteWorkoutSession(sessionId);
-        console.log(
-          "[WorkoutHistory] Session deleted, real-time update should follow"
-        );
-      } catch (error) {
-        console.error("Error deleting session:", error);
-        alert("Error deleting session. Please try again.");
-      } finally {
-        setDeletingSession(null);
-      }
-    }
-  };
-
-  const handleClearAllData = async () => {
-    if (
-      window.confirm(
-        "⚠️ WARNING: This will permanently delete ALL your workout data. This action cannot be undone. Are you sure you want to continue?"
-      )
-    ) {
-      setClearingData(true);
-      try {
-        await clearAllWorkoutData();
-        alert("All workout data has been cleared successfully!");
-      } catch (error) {
-        console.error("Error clearing data:", error);
-        alert("Error clearing data. Please try again.");
-      } finally {
-        setClearingData(false);
-      }
-    }
-  };
-
   const filteredSessions = selectedDate
     ? sessions.filter((session) => session.date === selectedDate)
     : sessions;
@@ -215,22 +157,6 @@ export const WorkoutHistory: React.FC = () => {
             Track your progress and view past workout sessions
           </p>
         </div>
-
-        {sessions.length > 0 && (
-          <button
-            onClick={handleClearAllData}
-            disabled={clearingData}
-            className="flex items-center gap-2 bg-red-500 hover:bg-red-600 disabled:bg-red-400 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
-            title="Clear all workout data"
-          >
-            {clearingData ? (
-              <Loader2 className="animate-spin" size={16} />
-            ) : (
-              <RefreshCw size={16} />
-            )}
-            {clearingData ? "Clearing..." : "Clear All Data"}
-          </button>
-        )}
       </div>
 
       {/* Stats Cards */}
@@ -335,18 +261,6 @@ export const WorkoutHistory: React.FC = () => {
                   </h3>
                   <p className="text-gray-600">{formatDate(session.date)}</p>
                 </div>
-                <button
-                  onClick={() => handleDeleteSession(session.id)}
-                  disabled={deletingSession === session.id}
-                  className="text-red-600 hover:text-red-700 p-2 disabled:opacity-50"
-                  title="Delete session"
-                >
-                  {deletingSession === session.id ? (
-                    <Loader2 className="animate-spin" size={18} />
-                  ) : (
-                    <Trash2 size={18} />
-                  )}
-                </button>
               </div>
 
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">

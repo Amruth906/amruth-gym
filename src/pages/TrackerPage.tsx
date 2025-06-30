@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
   ArrowLeft,
@@ -10,16 +10,15 @@ import {
 } from "lucide-react";
 import { WorkoutTracker } from "../components/WorkoutTracker";
 import { workoutCategories, weeklySchedule } from "../data/workouts";
+import { Exercise } from "../types/workout";
 
 export const TrackerPage: React.FC = () => {
   const { type, id } = useParams<{ type: string; id: string }>();
   const navigate = useNavigate();
-  const [showHistory, setShowHistory] = useState(false);
 
-  let exercises: any[] = [];
+  let exercises: Exercise[] = [];
   let workoutTitle = "";
   let workoutDescription = "";
-  let gradient = "";
 
   if (type === "category" && id) {
     const category = workoutCategories.find((cat) => cat.id === id);
@@ -27,7 +26,6 @@ export const TrackerPage: React.FC = () => {
       exercises = category.exercises;
       workoutTitle = category.name;
       workoutDescription = category.description;
-      gradient = category.color;
     }
   } else if (type === "schedule" && id) {
     const day = weeklySchedule.find(
@@ -37,7 +35,6 @@ export const TrackerPage: React.FC = () => {
       exercises = day.exercises;
       workoutTitle = `${day.day} - ${day.workout}`;
       workoutDescription = day.description;
-      gradient = "bg-gradient-to-br from-purple-500 to-violet-600";
     }
   }
 

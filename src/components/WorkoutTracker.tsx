@@ -15,17 +15,9 @@ import {
   Flame,
   Clock,
 } from "lucide-react";
-import {
-  Exercise,
-  WorkoutSet,
-  ExerciseLog,
-  WorkoutSession,
-} from "../types/workout";
+import { Exercise, ExerciseLog, WorkoutSession } from "../types/workout";
 import { calculateCaloriesForExercise } from "../utils/calories";
-import {
-  saveWorkoutSession,
-  migrateFromLocalStorage,
-} from "../utils/firebaseStorage";
+import { saveWorkoutSession } from "../utils/firebaseStorage";
 
 interface WorkoutTrackerProps {
   exercises: Exercise[];
@@ -42,16 +34,27 @@ export const WorkoutTracker: React.FC<WorkoutTrackerProps> = ({
   const [isActive, setIsActive] = useState(false);
   const [startTime, setStartTime] = useState<Date | null>(null);
   const [elapsedTime, setElapsedTime] = useState(0);
-  const [notes, setNotes] = useState("");
   const [activeExercise, setActiveExercise] = useState<number | null>(null);
   const [isSaving, setIsSaving] = useState(false);
+  const [activeTimers, setActiveTimers] = useState<{ [key: string]: number }>(
+    {}
+  );
 
   // Initialize exercise logs
   useEffect(() => {
     const initialLogs = exercises.map((exercise) => ({
       exerciseId: exercise.id,
       exerciseName: exercise.name,
-      sets: [{ reps: 0, completed: false }],
+      sets: [
+        {
+          reps: 0,
+          duration:
+            exercise.timerType === "hold"
+              ? exercise.defaultDuration || 30
+              : undefined,
+          completed: false,
+        },
+      ],
       totalReps: 0,
       totalCalories: 0,
       notes: "",
@@ -70,6 +73,23 @@ export const WorkoutTracker: React.FC<WorkoutTrackerProps> = ({
     return () => clearInterval(interval);
   }, [isActive, startTime]);
 
+  // Active timers effect
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveTimers((prev) => {
+        const updated = { ...prev };
+        Object.keys(updated).forEach((key) => {
+          if (updated[key] > 0) {
+            updated[key] -= 1;
+          }
+        });
+        return updated;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   const startWorkout = () => {
     setIsActive(true);
     setStartTime(new Date());
@@ -79,24 +99,60 @@ export const WorkoutTracker: React.FC<WorkoutTrackerProps> = ({
     setIsActive(false);
   };
 
+  const startTimer = (exerciseIndex: number, setIndex: number) => {
+    const exercise = exercises[exerciseIndex];
+    if (exercise.timerType === "hold") {
+      const timerKey = `${exerciseIndex}-${setIndex}`;
+      const duration =
+        exerciseLogs[exerciseIndex].sets[setIndex].duration ||
+        exercise.defaultDuration ||
+        30;
+      setActiveTimers((prev) => ({ ...prev, [timerKey]: duration }));
+    }
+  };
+
+  const stopTimer = (exerciseIndex: number, setIndex: number) => {
+    const timerKey = `${exerciseIndex}-${setIndex}`;
+    setActiveTimers((prev) => {
+      const updated = { ...prev };
+      delete updated[timerKey];
+      return updated;
+    });
+  };
+
   const quickSetReps = (
     exerciseIndex: number,
     setIndex: number,
     reps: number
   ) => {
     const updatedLogs = [...exerciseLogs];
-    updatedLogs[exerciseIndex].sets[setIndex] = {
-      ...updatedLogs[exerciseIndex].sets[setIndex],
-      reps: reps,
-      completed: true,
-    };
+    const exercise = exercises[exerciseIndex];
+
+    if (exercise.timerType === "hold") {
+      // For timer-based exercises, set duration instead of reps
+      updatedLogs[exerciseIndex].sets[setIndex] = {
+        ...updatedLogs[exerciseIndex].sets[setIndex],
+        duration: reps, // Use reps value as duration for timer-based exercises
+        completed: true,
+      };
+    } else {
+      // For rep-based exercises, set reps
+      updatedLogs[exerciseIndex].sets[setIndex] = {
+        ...updatedLogs[exerciseIndex].sets[setIndex],
+        reps: reps,
+        completed: true,
+      };
+    }
 
     // Recalculate totals
-    const exercise = exercises[exerciseIndex];
-    const totalReps = updatedLogs[exerciseIndex].sets.reduce(
-      (sum, set) => sum + (set.completed ? set.reps : 0),
-      0
-    );
+    const totalReps = updatedLogs[exerciseIndex].sets.reduce((sum, set) => {
+      if (set.completed) {
+        return (
+          sum + (exercise.timerType === "hold" ? set.duration || 0 : set.reps)
+        );
+      }
+      return sum;
+    }, 0);
     updatedLogs[exerciseIndex].totalReps = totalReps;
     updatedLogs[exerciseIndex].totalCalories = calculateCaloriesForExercise(
       exercise,
@@ -112,20 +168,36 @@ export const WorkoutTracker: React.FC<WorkoutTrackerProps> = ({
     adjustment: number
   ) => {
     const updatedLogs = [...exerciseLogs];
-    const currentReps = updatedLogs[exerciseIndex].sets[setIndex].reps;
-    const newReps = Math.max(0, currentReps + adjustment);
+    const exercise = exercises[exerciseIndex];
 
-    updatedLogs[exerciseIndex].sets[setIndex] = {
-      ...updatedLogs[exerciseIndex].sets[setIndex],
-      reps: newReps,
-    };
+    if (exercise.timerType === "hold") {
+      // For timer-based exercises, adjust duration
+      const currentDuration =
+        updatedLogs[exerciseIndex].sets[setIndex].duration || 30;
+      const newDuration = Math.max(5, currentDuration + adjustment);
+      updatedLogs[exerciseIndex].sets[setIndex] = {
+        ...updatedLogs[exerciseIndex].sets[setIndex],
+        duration: newDuration,
+      };
+    } else {
+      // For rep-based exercises, adjust reps
+      const currentReps = updatedLogs[exerciseIndex].sets[setIndex].reps;
+      const newReps = Math.max(0, currentReps + adjustment);
+      updatedLogs[exerciseIndex].sets[setIndex] = {
+        ...updatedLogs[exerciseIndex].sets[setIndex],
+        reps: newReps,
+      };
+    }
 
     // Recalculate totals
-    const exercise = exercises[exerciseIndex];
-    const totalReps = updatedLogs[exerciseIndex].sets.reduce(
-      (sum, set) => sum + (set.completed ? set.reps : 0),
-      0
-    );
+    const totalReps = updatedLogs[exerciseIndex].sets.reduce((sum, set) => {
+      if (set.completed) {
+        return (
+          sum + (exercise.timerType === "hold" ? set.duration || 0 : set.reps)
+        );
+      }
+      return sum;
+    }, 0);
     updatedLogs[exerciseIndex].totalReps = totalReps;
     updatedLogs[exerciseIndex].totalCalories = calculateCaloriesForExercise(
       exercise,
@@ -138,6 +210,7 @@ export const WorkoutTracker: React.FC<WorkoutTrackerProps> = ({
   const toggleSetComplete = (exerciseIndex: number, setIndex: number) => {
     const updatedLogs = [...exerciseLogs];
     const currentSet = updatedLogs[exerciseIndex].sets[setIndex];
+    const exercise = exercises[exerciseIndex];
 
     updatedLogs[exerciseIndex].sets[setIndex] = {
       ...currentSet,
@@ -145,11 +218,14 @@ export const WorkoutTracker: React.FC<WorkoutTrackerProps> = ({
     };
 
     // Recalculate totals
-    const exercise = exercises[exerciseIndex];
-    const totalReps = updatedLogs[exerciseIndex].sets.reduce(
-      (sum, set) => sum + (set.completed ? set.reps : 0),
-      0
-    );
+    const totalReps = updatedLogs[exerciseIndex].sets.reduce((sum, set) => {
+      if (set.completed) {
+        return (
+          sum + (exercise.timerType === "hold" ? set.duration || 0 : set.reps)
+        );
+      }
+      return sum;
+    }, 0);
     updatedLogs[exerciseIndex].totalReps = totalReps;
     updatedLogs[exerciseIndex].totalCalories = calculateCaloriesForExercise(
       exercise,
@@ -161,14 +237,22 @@ export const WorkoutTracker: React.FC<WorkoutTrackerProps> = ({
 
   const addSet = (exerciseIndex: number) => {
     const updatedLogs = [...exerciseLogs];
+    const exercise = exercises[exerciseIndex];
     const lastSet =
       updatedLogs[exerciseIndex].sets[
         updatedLogs[exerciseIndex].sets.length - 1
       ];
-    updatedLogs[exerciseIndex].sets.push({
+
+    const newSet = {
       reps: lastSet?.reps || 0,
+      duration:
+        exercise.timerType === "hold"
+          ? lastSet?.duration || exercise.defaultDuration || 30
+          : undefined,
       completed: false,
-    });
+    };
+
+    updatedLogs[exerciseIndex].sets.push(newSet);
     setExerciseLogs(updatedLogs);
   };
 
@@ -179,10 +263,14 @@ export const WorkoutTracker: React.FC<WorkoutTrackerProps> = ({
 
       // Recalculate totals
       const exercise = exercises[exerciseIndex];
-      const totalReps = updatedLogs[exerciseIndex].sets.reduce(
-        (sum, set) => sum + (set.completed ? set.reps : 0),
-        0
-      );
+      const totalReps = updatedLogs[exerciseIndex].sets.reduce((sum, set) => {
+        if (set.completed) {
+          return (
+            sum + (exercise.timerType === "hold" ? set.duration || 0 : set.reps)
+          );
+        }
+        return sum;
+      }, 0);
       updatedLogs[exerciseIndex].totalReps = totalReps;
       updatedLogs[exerciseIndex].totalCalories = calculateCaloriesForExercise(
         exercise,
@@ -199,9 +287,6 @@ export const WorkoutTracker: React.FC<WorkoutTrackerProps> = ({
     setIsSaving(true);
 
     try {
-      // First, try to migrate any existing localStorage data
-      await migrateFromLocalStorage();
-
       const totalCalories = exerciseLogs.reduce(
         (sum, log) => sum + log.totalCalories,
         0
@@ -224,7 +309,6 @@ export const WorkoutTracker: React.FC<WorkoutTrackerProps> = ({
         totalCalories: Math.round(totalCalories * 10) / 10,
         totalSets,
         totalReps,
-        notes,
       };
 
       await saveWorkoutSession(session);
@@ -341,6 +425,7 @@ export const WorkoutTracker: React.FC<WorkoutTrackerProps> = ({
         {exerciseLogs.map((log, exerciseIndex) => {
           const exercise = exercises[exerciseIndex];
           const isActive = activeExercise === exerciseIndex;
+          const isTimerBased = exercise.timerType === "hold";
 
           return (
             <div
@@ -357,7 +442,9 @@ export const WorkoutTracker: React.FC<WorkoutTrackerProps> = ({
                     </h3>
                     <div className="flex flex-wrap gap-1">
                       <span className="bg-gradient-to-r from-gray-100 to-gray-200 text-gray-700 px-2 py-1 rounded-full text-xs font-medium">
-                        {log.totalReps} reps
+                        {isTimerBased
+                          ? `${log.totalReps}s`
+                          : `${log.totalReps} reps`}
                       </span>
                       <span className="bg-gradient-to-r from-orange-100 to-orange-200 text-orange-700 px-2 py-1 rounded-full text-xs font-medium">
                         {Math.round(log.totalCalories * 10) / 10} cal
@@ -366,6 +453,12 @@ export const WorkoutTracker: React.FC<WorkoutTrackerProps> = ({
                         {log.sets.filter((set) => set.completed).length}/
                         {log.sets.length} sets
                       </span>
+                      {isTimerBased && (
+                        <span className="bg-gradient-to-r from-purple-100 to-purple-200 text-purple-700 px-2 py-1 rounded-full text-xs font-medium">
+                          <Timer size={10} className="inline mr-1" />
+                          Timer
+                        </span>
+                      )}
                     </div>
                   </div>
 
@@ -394,7 +487,7 @@ export const WorkoutTracker: React.FC<WorkoutTrackerProps> = ({
                   <div className="space-y-3 pt-3 border-t border-gray-100">
                     <div className="flex justify-between items-center">
                       <h4 className="font-semibold text-gray-800 text-base">
-                        Sets & Reps
+                        {isTimerBased ? "Sets & Duration" : "Sets & Reps"}
                       </h4>
                       <button
                         onClick={() => addSet(exerciseIndex)}
@@ -405,149 +498,211 @@ export const WorkoutTracker: React.FC<WorkoutTrackerProps> = ({
                       </button>
                     </div>
 
-                    {log.sets.map((set, setIndex) => (
-                      <div
-                        key={setIndex}
-                        className={`p-3 rounded-lg border-2 transition-all duration-200 ${
-                          set.completed
-                            ? "border-green-300 bg-gradient-to-r from-green-50 to-emerald-50"
-                            : "border-gray-200 bg-gradient-to-r from-gray-50 to-slate-50"
-                        }`}
-                      >
-                        {/* Set Header */}
-                        <div className="flex items-center justify-between mb-3">
-                          <div className="flex items-center gap-2">
-                            <span className="font-bold text-base text-gray-800 bg-white px-3 py-1 rounded-lg shadow-sm">
-                              Set {setIndex + 1}
-                            </span>
+                    {log.sets.map((set, setIndex) => {
+                      const timerKey = `${exerciseIndex}-${setIndex}`;
+                      const isTimerRunning =
+                        activeTimers[timerKey] !== undefined;
+                      const timerValue = activeTimers[timerKey] || 0;
+
+                      return (
+                        <div
+                          key={setIndex}
+                          className={`p-3 rounded-lg border-2 transition-all duration-200 ${
+                            set.completed
+                              ? "border-green-300 bg-gradient-to-r from-green-50 to-emerald-50"
+                              : "border-gray-200 bg-gradient-to-r from-gray-50 to-slate-50"
+                          }`}
+                        >
+                          {/* Set Header */}
+                          <div className="flex items-center justify-between mb-3">
                             <div className="flex items-center gap-2">
-                              <div className="text-2xl font-bold text-blue-600 bg-white px-4 py-2 rounded-lg shadow-sm min-w-[70px] text-center">
-                                {set.reps}
+                              <span className="font-bold text-base text-gray-800 bg-white px-3 py-1 rounded-lg shadow-sm">
+                                Set {setIndex + 1}
+                              </span>
+                              <div className="flex items-center gap-2">
+                                <div className="text-2xl font-bold text-blue-600 bg-white px-4 py-2 rounded-lg shadow-sm min-w-[70px] text-center">
+                                  {isTimerBased ? set.duration || 30 : set.reps}
+                                </div>
+                                <span className="text-gray-600 font-medium text-sm">
+                                  {isTimerBased ? "sec" : "reps"}
+                                </span>
                               </div>
-                              <span className="text-gray-600 font-medium text-sm">
-                                reps
-                              </span>
                             </div>
-                          </div>
 
-                          <div className="flex items-center gap-1">
-                            <button
-                              onClick={() =>
-                                toggleSetComplete(exerciseIndex, setIndex)
-                              }
-                              className={`flex items-center gap-1 px-3 py-2 rounded-lg font-medium transition-all duration-200 shadow-sm ${
-                                set.completed
-                                  ? "bg-gradient-to-r from-green-500 to-green-600 text-white hover:from-green-600 hover:to-green-700"
-                                  : "bg-gradient-to-r from-gray-200 to-gray-300 text-gray-700 hover:from-gray-300 hover:to-gray-400"
-                              }`}
-                            >
-                              {set.completed ? (
-                                <Check size={14} />
-                              ) : (
-                                <X size={14} />
-                              )}
-                              <span className="text-xs font-semibold">
-                                {set.completed ? "Done" : "Mark"}
-                              </span>
-                            </button>
-
-                            {log.sets.length > 1 && (
-                              <button
-                                onClick={() =>
-                                  removeSet(exerciseIndex, setIndex)
-                                }
-                                className="text-red-600 hover:text-red-700 hover:bg-red-50 p-2 rounded-lg transition-colors"
-                              >
-                                <X size={16} />
-                              </button>
-                            )}
-                          </div>
-                        </div>
-
-                        {/* Quick Rep Buttons - Compact */}
-                        <div className="space-y-3">
-                          <div>
-                            <span className="text-xs font-semibold text-gray-700 mb-2 block">
-                              Quick Set:
-                            </span>
-                            <div className="grid grid-cols-3 gap-2">
-                              {[5, 10, 15, 20, 25, 30].map((reps) => (
+                            <div className="flex items-center gap-1">
+                              {isTimerBased && (
                                 <button
-                                  key={reps}
                                   onClick={() =>
-                                    quickSetReps(exerciseIndex, setIndex, reps)
+                                    isTimerRunning
+                                      ? stopTimer(exerciseIndex, setIndex)
+                                      : startTimer(exerciseIndex, setIndex)
                                   }
-                                  className="bg-gradient-to-r from-blue-100 to-blue-200 hover:from-blue-200 hover:to-blue-300 text-blue-700 py-2 px-2 rounded-lg text-sm font-bold transition-all duration-200 shadow-sm hover:shadow-md transform hover:-translate-y-0.5"
+                                  className={`flex items-center gap-1 px-3 py-2 rounded-lg font-medium transition-all duration-200 shadow-sm ${
+                                    isTimerRunning
+                                      ? "bg-gradient-to-r from-red-500 to-red-600 text-white hover:from-red-600 hover:to-red-700"
+                                      : "bg-gradient-to-r from-green-500 to-green-600 text-white hover:from-green-600 hover:to-green-700"
+                                  }`}
                                 >
-                                  {reps}
+                                  {isTimerRunning ? (
+                                    <>
+                                      <Pause size={14} />
+                                      <span className="text-xs font-semibold">
+                                        {formatTime(timerValue)}
+                                      </span>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <Play size={14} />
+                                      <span className="text-xs font-semibold">
+                                        Start
+                                      </span>
+                                    </>
+                                  )}
                                 </button>
-                              ))}
+                              )}
+
+                              <button
+                                onClick={() =>
+                                  toggleSetComplete(exerciseIndex, setIndex)
+                                }
+                                className={`flex items-center gap-1 px-3 py-2 rounded-lg font-medium transition-all duration-200 shadow-sm ${
+                                  set.completed
+                                    ? "bg-gradient-to-r from-green-500 to-green-600 text-white hover:from-green-600 hover:to-green-700"
+                                    : "bg-gradient-to-r from-gray-200 to-gray-300 text-gray-700 hover:from-gray-300 hover:to-gray-400"
+                                }`}
+                              >
+                                {set.completed ? (
+                                  <Check size={14} />
+                                ) : (
+                                  <X size={14} />
+                                )}
+                                <span className="text-xs font-semibold">
+                                  {set.completed ? "Done" : "Mark"}
+                                </span>
+                              </button>
+
+                              {log.sets.length > 1 && (
+                                <button
+                                  onClick={() =>
+                                    removeSet(exerciseIndex, setIndex)
+                                  }
+                                  className="text-red-600 hover:text-red-700 hover:bg-red-50 p-2 rounded-lg transition-colors"
+                                >
+                                  <X size={16} />
+                                </button>
+                              )}
                             </div>
                           </div>
 
-                          {/* Fine Adjustment - Compact */}
-                          <div>
-                            <span className="text-xs font-semibold text-gray-700 mb-2 block">
-                              Adjust:
-                            </span>
-                            <div className="grid grid-cols-4 gap-2">
-                              <button
-                                onClick={() =>
-                                  adjustReps(exerciseIndex, setIndex, -5)
-                                }
-                                className="bg-gradient-to-r from-red-100 to-red-200 hover:from-red-200 hover:to-red-300 text-red-700 py-2 px-2 rounded-lg font-bold text-sm transition-all duration-200 shadow-sm hover:shadow-md transform hover:-translate-y-0.5"
-                              >
-                                -5
-                              </button>
-                              <button
-                                onClick={() =>
-                                  adjustReps(exerciseIndex, setIndex, -1)
-                                }
-                                className="bg-gradient-to-r from-gray-100 to-gray-200 hover:from-gray-200 hover:to-gray-300 text-gray-700 py-2 px-2 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md transform hover:-translate-y-0.5 flex items-center justify-center"
-                              >
-                                <Minus size={16} />
-                              </button>
-                              <button
-                                onClick={() =>
-                                  adjustReps(exerciseIndex, setIndex, 1)
-                                }
-                                className="bg-gradient-to-r from-gray-100 to-gray-200 hover:from-gray-200 hover:to-gray-300 text-gray-700 py-2 px-2 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md transform hover:-translate-y-0.5 flex items-center justify-center"
-                              >
-                                <Plus size={16} />
-                              </button>
-                              <button
-                                onClick={() =>
-                                  adjustReps(exerciseIndex, setIndex, 5)
-                                }
-                                className="bg-gradient-to-r from-green-100 to-green-200 hover:from-green-200 hover:to-green-300 text-green-700 py-2 px-2 rounded-lg font-bold text-sm transition-all duration-200 shadow-sm hover:shadow-md transform hover:-translate-y-0.5"
-                              >
-                                +5
-                              </button>
+                          {/* Quick Set Buttons */}
+                          <div className="space-y-3">
+                            <div>
+                              <span className="text-xs font-semibold text-gray-700 mb-2 block">
+                                Quick Set:
+                              </span>
+                              <div className="grid grid-cols-3 gap-2">
+                                {isTimerBased
+                                  ? [15, 30, 45, 60, 90, 120].map(
+                                      (duration) => (
+                                        <button
+                                          key={duration}
+                                          onClick={() =>
+                                            quickSetReps(
+                                              exerciseIndex,
+                                              setIndex,
+                                              duration
+                                            )
+                                          }
+                                          className="bg-gradient-to-r from-blue-100 to-blue-200 hover:from-blue-200 hover:to-blue-300 text-blue-700 py-2 px-2 rounded-lg text-sm font-bold transition-all duration-200 shadow-sm hover:shadow-md transform hover:-translate-y-0.5"
+                                        >
+                                          {duration}s
+                                        </button>
+                                      )
+                                    )
+                                  : [5, 10, 15, 20, 25, 30].map((reps) => (
+                                      <button
+                                        key={reps}
+                                        onClick={() =>
+                                          quickSetReps(
+                                            exerciseIndex,
+                                            setIndex,
+                                            reps
+                                          )
+                                        }
+                                        className="bg-gradient-to-r from-blue-100 to-blue-200 hover:from-blue-200 hover:to-blue-300 text-blue-700 py-2 px-2 rounded-lg text-sm font-bold transition-all duration-200 shadow-sm hover:shadow-md transform hover:-translate-y-0.5"
+                                      >
+                                        {reps}
+                                      </button>
+                                    ))}
+                              </div>
+                            </div>
+
+                            {/* Fine Adjustment */}
+                            <div>
+                              <span className="text-xs font-semibold text-gray-700 mb-2 block">
+                                Adjust:
+                              </span>
+                              <div className="grid grid-cols-4 gap-2">
+                                <button
+                                  onClick={() =>
+                                    adjustReps(
+                                      exerciseIndex,
+                                      setIndex,
+                                      isTimerBased ? -15 : -5
+                                    )
+                                  }
+                                  className="bg-gradient-to-r from-red-100 to-red-200 hover:from-red-200 hover:to-red-300 text-red-700 py-2 px-2 rounded-lg font-bold text-sm transition-all duration-200 shadow-sm hover:shadow-md transform hover:-translate-y-0.5"
+                                >
+                                  {isTimerBased ? "-15s" : "-5"}
+                                </button>
+                                <button
+                                  onClick={() =>
+                                    adjustReps(
+                                      exerciseIndex,
+                                      setIndex,
+                                      isTimerBased ? -5 : -1
+                                    )
+                                  }
+                                  className="bg-gradient-to-r from-gray-100 to-gray-200 hover:from-gray-200 hover:to-gray-300 text-gray-700 py-2 px-2 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md transform hover:-translate-y-0.5 flex items-center justify-center"
+                                >
+                                  <Minus size={16} />
+                                </button>
+                                <button
+                                  onClick={() =>
+                                    adjustReps(
+                                      exerciseIndex,
+                                      setIndex,
+                                      isTimerBased ? 5 : 1
+                                    )
+                                  }
+                                  className="bg-gradient-to-r from-gray-100 to-gray-200 hover:from-gray-200 hover:to-gray-300 text-gray-700 py-2 px-2 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md transform hover:-translate-y-0.5 flex items-center justify-center"
+                                >
+                                  <Plus size={16} />
+                                </button>
+                                <button
+                                  onClick={() =>
+                                    adjustReps(
+                                      exerciseIndex,
+                                      setIndex,
+                                      isTimerBased ? 15 : 5
+                                    )
+                                  }
+                                  className="bg-gradient-to-r from-green-100 to-green-200 hover:from-green-200 hover:to-green-300 text-green-700 py-2 px-2 rounded-lg font-bold text-sm transition-all duration-200 shadow-sm hover:shadow-md transform hover:-translate-y-0.5"
+                                >
+                                  {isTimerBased ? "+15s" : "+5"}
+                                </button>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 )}
               </div>
             </div>
           );
         })}
-      </div>
-
-      {/* Notes Section - Fixed Bottom */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-3 shadow-lg">
-        <label className="block text-sm font-semibold text-gray-800 mb-2">
-          💭 Workout Notes
-        </label>
-        <textarea
-          value={notes}
-          onChange={(e) => setNotes(e.target.value)}
-          placeholder="How did the workout feel? Any observations or goals for next time..."
-          className="w-full px-3 py-2 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none transition-all duration-200 bg-gradient-to-r from-gray-50 to-slate-50"
-          rows={2}
-        />
       </div>
     </div>
   );

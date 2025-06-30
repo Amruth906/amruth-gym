@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { ProfileDropdown } from "./ProfileDropdown";
-import { Home, History, Menu, X, Sparkles, Zap } from "lucide-react";
+import { Home, History, Menu, X, Sparkles } from "lucide-react";
 
 export const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);

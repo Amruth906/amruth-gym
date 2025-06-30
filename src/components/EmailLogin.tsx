@@ -33,28 +33,32 @@ const EmailLogin = () => {
         console.log("User logged in successfully");
       }
       navigate("/");
-    } catch (error: any) {
-      console.error("Auth Error:", error);
-
-      // Provide user-friendly error messages
-      if (error.code === "auth/user-not-found") {
-        setError(
-          "No account found with this email address. Please check your email or create a new account."
-        );
-      } else if (error.code === "auth/wrong-password") {
-        setError("Incorrect password. Please try again.");
-      } else if (error.code === "auth/invalid-email") {
-        setError("Please enter a valid email address.");
-      } else if (error.code === "auth/weak-password") {
-        setError("Password should be at least 6 characters long.");
-      } else if (error.code === "auth/email-already-in-use") {
-        setError(
-          "An account with this email already exists. Please sign in instead."
-        );
-      } else if (error.code === "auth/too-many-requests") {
-        setError("Too many failed attempts. Please try again later.");
-      } else if (error.code === "auth/network-request-failed") {
-        setError("Network error. Please check your internet connection.");
+    } catch (error: unknown) {
+      if (typeof error === "object" && error && "code" in error) {
+        const err = error as { code?: string; message?: string };
+        console.error("Auth Error:", err);
+        // Provide user-friendly error messages
+        if (err.code === "auth/user-not-found") {
+          setError(
+            "No account found with this email address. Please check your email or create a new account."
+          );
+        } else if (err.code === "auth/wrong-password") {
+          setError("Incorrect password. Please try again.");
+        } else if (err.code === "auth/invalid-email") {
+          setError("Please enter a valid email address.");
+        } else if (err.code === "auth/weak-password") {
+          setError("Password should be at least 6 characters long.");
+        } else if (err.code === "auth/email-already-in-use") {
+          setError(
+            "An account with this email already exists. Please sign in instead."
+          );
+        } else if (err.code === "auth/too-many-requests") {
+          setError("Too many failed attempts. Please try again later.");
+        } else if (err.code === "auth/network-request-failed") {
+          setError("Network error. Please check your internet connection.");
+        } else {
+          setError("Authentication failed. Please try again.");
+        }
       } else {
         setError("Authentication failed. Please try again.");
       }

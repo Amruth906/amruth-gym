@@ -2,14 +2,17 @@ export interface Exercise {
   id: string;
   name: string;
   category: string;
-  difficulty?: 'Beginner' | 'Intermediate' | 'Advanced';
+  difficulty?: "Beginner" | "Intermediate" | "Advanced";
   targetMuscles?: string[];
   caloriesPerRep?: number;
   section?: string; // Add section for grouping exercises
+  timerType?: "hold" | "reps"; // 'hold' for timer-based exercises, 'reps' for rep-based exercises
+  defaultDuration?: number; // Default duration in seconds for timer-based exercises
 }
 
 export interface WorkoutSet {
   reps: number;
+  duration?: number; // Duration in seconds for timer-based exercises
   weight?: number;
   completed: boolean;
 }
