@@ -42,12 +42,11 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({
     ];
     return gradients[index % gradients.length];
   };
-
   const gradientColors = getGradientColors(index);
 
   return (
     <div
-      className="group relative cursor-pointer transform hover:scale-105 transition-all duration-500 animate-fadeIn"
+      className={`group relative cursor-pointer transform hover:scale-105 transition-all duration-500 animate-fadeIn`}
       style={{ animationDelay: `${index * 150}ms` }}
       onClick={handleViewExercises}
     >
@@ -63,7 +62,7 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({
           <div
             className={`bg-gradient-to-r ${gradientColors} w-16 h-16 rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow duration-300`}
           >
-            <span className="text-3xl">{icon}</span>
+            <span className="text-3xl text-white drop-shadow-lg">{icon}</span>
           </div>
           <div className="flex items-center gap-2">
             <Sparkles className="w-5 h-5 text-yellow-300 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />

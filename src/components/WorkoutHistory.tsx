@@ -1,8 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { Calendar, TrendingUp, Clock, Flame, Loader2 } from "lucide-react";
+import {
+  Calendar,
+  TrendingUp,
+  Clock,
+  Flame,
+  Loader2,
+  Trash2,
+} from "lucide-react";
 import { WorkoutSession } from "../types/workout";
 import { onValue, ref } from "firebase/database";
 import { db, auth } from "../firebase";
+import {
+  deleteWorkoutSession,
+  clearAllWorkoutData,
+} from "../utils/firebaseStorage";
 
 export const WorkoutHistory: React.FC = () => {
   const [sessions, setSessions] = useState<WorkoutSession[]>([]);
@@ -14,6 +25,9 @@ export const WorkoutHistory: React.FC = () => {
     totalWorkoutTime: 0,
     averageCaloriesPerSession: 0,
   });
+  const [deletingSession, setDeletingSession] = useState<string | null>(null);
+  const [clearingAll, setClearingAll] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
 
   useEffect(() => {
     let unsubscribe: (() => void) | undefined;
@@ -131,6 +145,25 @@ export const WorkoutHistory: React.FC = () => {
     });
   };
 
+  const handleDeleteSession = async (sessionId: string) => {
+    setDeletingSession(sessionId);
+    try {
+      await deleteWorkoutSession(sessionId);
+    } finally {
+      setDeletingSession(null);
+    }
+  };
+
+  const handleDeleteAll = async () => {
+    setClearingAll(true);
+    try {
+      await clearAllWorkoutData();
+      setShowConfirm(false);
+    } finally {
+      setClearingAll(false);
+    }
+  };
+
   if (loading) {
     return (
       <div className="max-w-6xl mx-auto px-6 py-8">
@@ -157,7 +190,48 @@ export const WorkoutHistory: React.FC = () => {
             Track your progress and view past workout sessions
           </p>
         </div>
+        {filteredSessions.length > 0 && (
+          <button
+            className="flex items-center gap-2 px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg font-semibold shadow transition-all"
+            onClick={() => setShowConfirm(true)}
+            disabled={clearingAll}
+          >
+            <Trash2 className="w-5 h-5" />
+            {clearingAll ? "Deleting..." : "Delete All"}
+          </button>
+        )}
       </div>
+
+      {/* Confirm Delete All Popup */}
+      {showConfirm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+          <div className="bg-white rounded-xl shadow-lg p-8 max-w-sm w-full text-center">
+            <h2 className="text-xl font-bold mb-4 text-gray-900">
+              Confirm Delete All
+            </h2>
+            <p className="mb-6 text-gray-700">
+              Are you sure you want to delete <b>all</b> workout sessions? This
+              action cannot be undone.
+            </p>
+            <div className="flex justify-center gap-4">
+              <button
+                className="px-6 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg font-semibold"
+                onClick={handleDeleteAll}
+                disabled={clearingAll}
+              >
+                Yes, Delete All
+              </button>
+              <button
+                className="px-6 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-lg font-semibold"
+                onClick={() => setShowConfirm(false)}
+                disabled={clearingAll}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
@@ -253,7 +327,10 @@ export const WorkoutHistory: React.FC = () => {
           </div>
         ) : (
           filteredSessions.map((session) => (
-            <div key={session.id} className="bg-white rounded-xl shadow-md p-6">
+            <div
+              key={session.id}
+              className="bg-white rounded-xl shadow-md p-6 relative"
+            >
               <div className="flex items-start justify-between mb-4">
                 <div>
                   <h3 className="text-xl font-semibold text-gray-900">
@@ -290,34 +367,19 @@ export const WorkoutHistory: React.FC = () => {
                 </div>
               </div>
 
-              {session.exercises.length > 0 && (
-                <div className="mb-4">
-                  <h4 className="font-medium text-gray-900 mb-2">Exercises:</h4>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                    {session.exercises.map((exercise, index) => (
-                      <div
-                        key={index}
-                        className="text-sm text-gray-600 bg-gray-50 p-2 rounded"
-                      >
-                        <span className="font-medium">
-                          {exercise.exerciseName}
-                        </span>
-                        <span className="ml-2">
-                          {exercise.sets.filter((set) => set.completed).length}{" "}
-                          sets • {exercise.totalReps} reps
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {session.notes && (
-                <div className="border-t pt-4">
-                  <h4 className="font-medium text-gray-900 mb-1">Notes:</h4>
-                  <p className="text-gray-600 text-sm">{session.notes}</p>
-                </div>
-              )}
+              {/* Delete Button */}
+              <button
+                className="absolute top-4 right-4 p-2 bg-red-100 hover:bg-red-200 rounded-full text-red-600 transition-all"
+                onClick={() => handleDeleteSession(session.id)}
+                disabled={deletingSession === session.id}
+                title="Delete session"
+              >
+                {deletingSession === session.id ? (
+                  <Loader2 className="animate-spin w-5 h-5" />
+                ) : (
+                  <Trash2 className="w-5 h-5" />
+                )}
+              </button>
             </div>
           ))
         )}

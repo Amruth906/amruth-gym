@@ -38,7 +38,7 @@ export const WorkoutPage: React.FC = () => {
       />
 
       <div className="px-6 py-12">
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-6xl mx-auto bg-surface rounded-2xl shadow-card p-8">
           <div className="mb-8">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
               <div>

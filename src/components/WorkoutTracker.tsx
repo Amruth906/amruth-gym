@@ -18,6 +18,8 @@ import {
 import { Exercise, ExerciseLog, WorkoutSession } from "../types/workout";
 import { calculateCaloriesForExercise } from "../utils/calories";
 import { saveWorkoutSession } from "../utils/firebaseStorage";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface WorkoutTrackerProps {
   exercises: Exercise[];
@@ -300,11 +302,25 @@ export const WorkoutTracker: React.FC<WorkoutTrackerProps> = ({
         0
       );
 
+      // Sanitize sets: remove undefined duration
+      const sanitizedExercises = exerciseLogs
+        .filter((log) => log.totalReps > 0)
+        .map((log) => ({
+          ...log,
+          sets: log.sets.map((set) => {
+            const newSet = { ...set };
+            if (typeof newSet.duration === "undefined") {
+              delete newSet.duration;
+            }
+            return newSet;
+          }),
+        }));
+
       const session: WorkoutSession = {
         id: Date.now().toString(),
         date: new Date().toISOString().split("T")[0],
         workoutType,
-        exercises: exerciseLogs.filter((log) => log.totalReps > 0),
+        exercises: sanitizedExercises,
         totalDuration: Math.floor(elapsedTime / 60),
         totalCalories: Math.round(totalCalories * 10) / 10,
         totalSets,
@@ -315,6 +331,30 @@ export const WorkoutTracker: React.FC<WorkoutTrackerProps> = ({
       if (onSave) {
         onSave(session);
       }
+      // Stop and reset timer and logs
+      setIsActive(false);
+      setStartTime(null);
+      setElapsedTime(0);
+      // Re-initialize exercise logs
+      const initialLogs = exercises.map((exercise) => ({
+        exerciseId: exercise.id,
+        exerciseName: exercise.name,
+        sets: [
+          {
+            reps: 0,
+            duration:
+              exercise.timerType === "hold"
+                ? exercise.defaultDuration || 30
+                : undefined,
+            completed: false,
+          },
+        ],
+        totalReps: 0,
+        totalCalories: 0,
+        notes: "",
+      }));
+      setExerciseLogs(initialLogs);
+      toast.success("Workout saved successfully!");
     } catch (error) {
       console.error("Error saving workout:", error);
     } finally {

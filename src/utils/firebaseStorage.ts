@@ -1,4 +1,4 @@
-import { ref, set, get, push } from "firebase/database";
+import { ref, set, get, push, remove } from "firebase/database";
 import { db } from "../firebase";
 import { WorkoutSession } from "../types/workout";
 import { auth } from "../firebase";
@@ -183,4 +183,20 @@ export const getWorkoutSessionsByDate = async (
       return [];
     }
   }
+};
+
+export const deleteWorkoutSession = async (
+  sessionId: string
+): Promise<void> => {
+  const userId = getUserId();
+  if (!userId) throw new Error("User not authenticated");
+  const sessionRef = ref(db, `users/${userId}/workoutSessions/${sessionId}`);
+  await remove(sessionRef);
+};
+
+export const clearAllWorkoutData = async (): Promise<void> => {
+  const userId = getUserId();
+  if (!userId) throw new Error("User not authenticated");
+  const sessionsRef = ref(db, `users/${userId}/workoutSessions`);
+  await remove(sessionsRef);
 };

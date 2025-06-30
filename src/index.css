@@ -1,3 +1,40 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  @apply bg-background text-text font-sans antialiased;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply font-bold text-text;
+}
+a {
+  @apply text-primary transition-colors no-underline;
+}
+a:hover {
+  @apply underline;
+}
+nav a,
+.logo,
+.navbar a,
+nav a:hover,
+.logo:hover,
+.navbar a:hover {
+  text-decoration: none !important;
+}
+input,
+textarea,
+select {
+  @apply bg-surface border border-border rounded-xl px-4 py-2 text-text focus:ring-2 focus:ring-primary focus:outline-none transition-all;
+}
+button {
+  @apply rounded-xl font-semibold transition-all shadow-button;
+}
+.card {
+  @apply bg-surface rounded-2xl shadow-card p-6;
+}

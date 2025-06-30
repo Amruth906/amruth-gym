@@ -170,7 +170,7 @@ export const TrackerPage: React.FC = () => {
       {/* Tracker */}
       <div className="relative z-10 px-4 pb-16">
         <div className="max-w-5xl mx-auto">
-          <div className="bg-white/10 backdrop-blur-xl rounded-3xl border border-white/20 shadow-2xl p-2">
+          <div className="bg-surface rounded-3xl shadow-2xl p-8">
             <WorkoutTracker
               exercises={exercises}
               workoutType={workoutTitle}

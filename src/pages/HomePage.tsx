@@ -19,7 +19,7 @@ import { workoutCategories, weeklySchedule } from "../data/workouts";
 
 export const HomePage: React.FC = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-violet-400 via-fuchsia-400 to-cyan-400 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-[#a7ffeb] via-[#40c9ff] to-[#30a2ff] relative overflow-hidden">
       {/* Enhanced Animated Background Elements */}
       <div className="absolute inset-0">
         <div className="absolute top-20 left-20 w-96 h-96 bg-gradient-to-r from-yellow-300/40 to-orange-400/40 rounded-full blur-3xl animate-pulse"></div>
@@ -46,74 +46,29 @@ export const HomePage: React.FC = () => {
       </div>
 
       {/* Hero Section */}
-      <div className="relative z-10 px-6 pt-20 pb-32">
-        <div className="max-w-6xl mx-auto text-center">
-          {/* Enhanced Animated Icon */}
-          <div className="flex justify-center mb-8">
-            <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-yellow-300 to-orange-400 rounded-full blur-xl animate-pulse"></div>
-              <div className="absolute inset-0 bg-gradient-to-r from-pink-400 to-purple-500 rounded-full blur-xl animate-pulse delay-500"></div>
-              <div className="relative bg-gradient-to-r from-yellow-300 via-orange-400 to-pink-500 p-8 rounded-full shadow-2xl transform hover:scale-110 transition-transform duration-500">
-                <Dumbbell size={72} className="text-white drop-shadow-lg" />
-              </div>
-            </div>
-          </div>
-
+      <div className="relative z-10 px-6 mt-32">
+        <div className="max-w-6xl w-full text-center mx-auto">
           {/* Enhanced Main Heading */}
           {/* Removed the main heading text completely */}
 
           {/* Enhanced Subtitle */}
-          <p className="text-2xl md:text-3xl text-white/95 mb-12 max-w-4xl mx-auto leading-relaxed font-medium drop-shadow-lg">
+          <p className="text-2xl md:text-3xl text-white/95 mb-12 max-w-4xl mx-auto leading-relaxed font-medium drop-shadow-lg text-center">
             Experience the future of fitness with our{" "}
             <span className="bg-gradient-to-r from-yellow-200 to-orange-300 bg-clip-text text-transparent font-bold">
               revolutionary
             </span>{" "}
             workout programs. From{" "}
-            <span className="bg-gradient-to-r from-cyan-200 to-blue-300 bg-clip-text text-transparent font-bold">
+            <span className="text-white font-bold drop-shadow-lg">
               beginner to elite
             </span>
             , achieve your dreams today.
           </p>
 
           {/* Enhanced Feature Pills */}
-          <div className="flex flex-wrap justify-center gap-4 mb-12">
-            <div className="flex items-center gap-3 px-6 py-3 bg-white/25 backdrop-blur-sm rounded-full border border-white/40 shadow-lg transform hover:scale-105 transition-all duration-300">
-              <Target size={20} className="text-yellow-200" />
-              <span className="text-white font-bold">Targeted Workouts</span>
-            </div>
-            <div className="flex items-center gap-3 px-6 py-3 bg-white/25 backdrop-blur-sm rounded-full border border-white/40 shadow-lg transform hover:scale-105 transition-all duration-300">
-              <Calendar size={20} className="text-cyan-200" />
-              <span className="text-white font-bold">Smart Schedule</span>
-            </div>
-            <div className="flex items-center gap-3 px-6 py-3 bg-white/25 backdrop-blur-sm rounded-full border border-white/40 shadow-lg transform hover:scale-105 transition-all duration-300">
-              <Zap size={20} className="text-pink-200" />
-              <span className="text-white font-bold">Instant Results</span>
-            </div>
-            <div className="flex items-center gap-3 px-6 py-3 bg-white/25 backdrop-blur-sm rounded-full border border-white/40 shadow-lg transform hover:scale-105 transition-all duration-300">
-              <Star size={20} className="text-yellow-200" />
-              <span className="text-white font-bold">Premium Quality</span>
-            </div>
-          </div>
+          {/* Removed the feature pills and CTA buttons below the subtitle for a cleaner look */}
 
           {/* Enhanced CTA Buttons */}
-          <div className="flex flex-col sm:flex-row justify-center gap-6">
-            <button className="group relative px-12 py-4 bg-gradient-to-r from-yellow-300 via-orange-400 to-pink-500 text-white font-bold text-xl rounded-full shadow-2xl transform hover:scale-105 transition-all duration-300 hover:shadow-yellow-300/50">
-              <span className="relative z-10 flex items-center gap-3">
-                <Rocket className="w-6 h-6" />
-                Start Your Journey
-                <Sparkles className="w-6 h-6" />
-              </span>
-              <div className="absolute inset-0 bg-gradient-to-r from-orange-400 to-pink-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            </button>
-
-            <button className="group relative px-12 py-4 bg-white/20 backdrop-blur-sm border border-white/40 text-white font-bold text-xl rounded-full shadow-2xl transform hover:scale-105 transition-all duration-300 hover:bg-white/30">
-              <span className="relative z-10 flex items-center gap-3">
-                <Heart className="w-6 h-6" />
-                Learn More
-                <Crown className="w-6 h-6" />
-              </span>
-            </button>
-          </div>
+          {/* Removed the CTA buttons below the subtitle for a cleaner look */}
         </div>
       </div>
 
@@ -144,7 +99,6 @@ export const HomePage: React.FC = () => {
                 description={category.description}
                 exerciseCount={category.exercises.length}
                 icon={category.icon}
-                color={category.color}
                 index={index}
               />
             ))}
@@ -170,7 +124,7 @@ export const HomePage: React.FC = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 gap-y-12">
             {weeklySchedule.map((day, index) => (
               <WeeklyScheduleCard key={day.shortDay} day={day} index={index} />
             ))}
