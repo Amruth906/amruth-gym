@@ -21,6 +21,9 @@ import { ToastContainer } from "react-toastify";
 
 const AppContent = () => {
   const { currentUser, loading } = useAuth();
+  const location = useLocation();
+  // Hide Navbar on tracker pages
+  const hideNavbar = location.pathname.startsWith("/tracker/");
   if (loading) {
     return (
       <div className="w-screen h-screen flex items-center justify-center bg-gradient-to-br from-[#a7ffeb] via-[#40c9ff] to-[#30a2ff]">
@@ -30,7 +33,7 @@ const AppContent = () => {
   }
   return (
     <>
-      {currentUser && <Navbar />}
+      {currentUser && !hideNavbar && <Navbar />}
       <div>
         <Routes>
           <Route path="/login" element={<LoginPage />} />

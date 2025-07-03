@@ -524,219 +524,79 @@ export const WorkoutTracker: React.FC<WorkoutTrackerProps> = ({
                 </div>
 
                 {isActive && (
-                  <div className="space-y-3 pt-3 border-t border-gray-100">
-                    <div className="flex justify-between items-center">
-                      <h4 className="font-semibold text-gray-800 text-base">
-                        {isTimerBased ? "Sets & Duration" : "Sets & Reps"}
-                      </h4>
+                  <div className="flex flex-col items-center justify-between min-h-[60vh] w-full py-6">
+                    {/* Timer at top center */}
+                    <div className="w-full flex flex-col items-center mb-4">
+                      <div className="flex justify-center w-full mb-4">
+                        <div className="bg-white rounded-full shadow px-6 py-2 text-lg font-bold text-gray-800">
+                          {formatTime(elapsedTime)}
+                        </div>
+                      </div>
+                      {/* Placeholder image and exercise name */}
+                      <div className="flex flex-col items-center">
+                        <div className="w-48 h-48 bg-gray-200 rounded-xl flex items-center justify-center mb-4">
+                          <span className="text-5xl text-gray-400">🏋️</span>
+                        </div>
+                        <div className="text-2xl font-bold text-center mb-2">
+                          {exercise.name}
+                        </div>
+                      </div>
+                    </div>
+                    {/* Reps logging input */}
+                    <div className="flex flex-col items-center w-full mt-4">
+                      <div className="flex items-center justify-center gap-4 mb-6">
+                        <button
+                          onClick={() => adjustReps(exerciseIndex, 0, -1)}
+                          className="bg-gray-200 rounded-full p-3 text-2xl font-bold text-gray-600 hover:bg-gray-300"
+                        >
+                          -
+                        </button>
+                        <input
+                          type="number"
+                          value={log.sets[0].reps}
+                          onChange={(e) =>
+                            quickSetReps(
+                              exerciseIndex,
+                              0,
+                              Number(e.target.value)
+                            )
+                          }
+                          className="w-20 text-center text-2xl font-bold border-b-2 border-blue-500 focus:outline-none bg-transparent"
+                        />
+                        <button
+                          onClick={() => adjustReps(exerciseIndex, 0, 1)}
+                          className="bg-gray-200 rounded-full p-3 text-2xl font-bold text-gray-600 hover:bg-gray-300"
+                        >
+                          +
+                        </button>
+                      </div>
+                    </div>
+                    {/* Navigation buttons */}
+                    <div className="flex justify-between items-center w-full mt-8">
                       <button
-                        onClick={() => addSet(exerciseIndex)}
-                        className="flex items-center gap-1 text-green-600 hover:text-green-700 bg-green-50 hover:bg-green-100 px-3 py-1 rounded-lg transition-colors font-medium"
+                        onClick={() => setActiveExercise(exerciseIndex - 1)}
+                        disabled={exerciseIndex === 0}
+                        className="flex-1 text-left text-blue-600 font-semibold text-lg px-2 disabled:text-gray-400"
                       >
-                        <Plus size={14} />
-                        <span className="text-xs font-semibold">Add Set</span>
+                        ⏮ Previous
+                      </button>
+                      <button
+                        onClick={() => {
+                          toggleSetComplete(exerciseIndex, 0);
+                          setActiveExercise(exerciseIndex + 1);
+                        }}
+                        className="flex-1 mx-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl text-lg shadow"
+                      >
+                        ✓ Done
+                      </button>
+                      <button
+                        onClick={() => setActiveExercise(exerciseIndex + 1)}
+                        disabled={exerciseIndex === exercises.length - 1}
+                        className="flex-1 text-right text-blue-600 font-semibold text-lg px-2 disabled:text-gray-400"
+                      >
+                        Skip ⏭
                       </button>
                     </div>
-
-                    {log.sets.map((set, setIndex) => {
-                      const timerKey = `${exerciseIndex}-${setIndex}`;
-                      const isTimerRunning =
-                        activeTimers[timerKey] !== undefined;
-                      const timerValue = activeTimers[timerKey] || 0;
-
-                      return (
-                        <div
-                          key={setIndex}
-                          className={`p-3 rounded-lg border-2 transition-all duration-200 ${
-                            set.completed
-                              ? "border-green-300 bg-gradient-to-r from-green-50 to-emerald-50"
-                              : "border-gray-200 bg-gradient-to-r from-gray-50 to-slate-50"
-                          }`}
-                        >
-                          {/* Set Header */}
-                          <div className="flex items-center justify-between mb-3">
-                            <div className="flex items-center gap-2">
-                              <span className="font-bold text-base text-gray-800 bg-white px-3 py-1 rounded-lg shadow-sm">
-                                Set {setIndex + 1}
-                              </span>
-                              <div className="flex items-center gap-2">
-                                <div className="text-2xl font-bold text-blue-600 bg-white px-4 py-2 rounded-lg shadow-sm min-w-[70px] text-center">
-                                  {isTimerBased ? set.duration || 30 : set.reps}
-                                </div>
-                                <span className="text-gray-600 font-medium text-sm">
-                                  {isTimerBased ? "sec" : "reps"}
-                                </span>
-                              </div>
-                            </div>
-
-                            <div className="flex items-center gap-1">
-                              {isTimerBased && (
-                                <button
-                                  onClick={() =>
-                                    isTimerRunning
-                                      ? stopTimer(exerciseIndex, setIndex)
-                                      : startTimer(exerciseIndex, setIndex)
-                                  }
-                                  className={`flex items-center gap-1 px-3 py-2 rounded-lg font-medium transition-all duration-200 shadow-sm ${
-                                    isTimerRunning
-                                      ? "bg-gradient-to-r from-red-500 to-red-600 text-white hover:from-red-600 hover:to-red-700"
-                                      : "bg-gradient-to-r from-green-500 to-green-600 text-white hover:from-green-600 hover:to-green-700"
-                                  }`}
-                                >
-                                  {isTimerRunning ? (
-                                    <>
-                                      <Pause size={14} />
-                                      <span className="text-xs font-semibold">
-                                        {formatTime(timerValue)}
-                                      </span>
-                                    </>
-                                  ) : (
-                                    <>
-                                      <Play size={14} />
-                                      <span className="text-xs font-semibold">
-                                        Start
-                                      </span>
-                                    </>
-                                  )}
-                                </button>
-                              )}
-
-                              <button
-                                onClick={() =>
-                                  toggleSetComplete(exerciseIndex, setIndex)
-                                }
-                                className={`flex items-center gap-1 px-3 py-2 rounded-lg font-medium transition-all duration-200 shadow-sm ${
-                                  set.completed
-                                    ? "bg-gradient-to-r from-green-500 to-green-600 text-white hover:from-green-600 hover:to-green-700"
-                                    : "bg-gradient-to-r from-gray-200 to-gray-300 text-gray-700 hover:from-gray-300 hover:to-gray-400"
-                                }`}
-                              >
-                                {set.completed ? (
-                                  <Check size={14} />
-                                ) : (
-                                  <X size={14} />
-                                )}
-                                <span className="text-xs font-semibold">
-                                  {set.completed ? "Done" : "Mark"}
-                                </span>
-                              </button>
-
-                              {log.sets.length > 1 && (
-                                <button
-                                  onClick={() =>
-                                    removeSet(exerciseIndex, setIndex)
-                                  }
-                                  className="text-red-600 hover:text-red-700 hover:bg-red-50 p-2 rounded-lg transition-colors"
-                                >
-                                  <X size={16} />
-                                </button>
-                              )}
-                            </div>
-                          </div>
-
-                          {/* Quick Set Buttons */}
-                          <div className="space-y-3">
-                            <div>
-                              <span className="text-xs font-semibold text-gray-700 mb-2 block">
-                                Quick Set:
-                              </span>
-                              <div className="grid grid-cols-3 gap-2">
-                                {isTimerBased
-                                  ? [15, 30, 45, 60, 90, 120].map(
-                                      (duration) => (
-                                        <button
-                                          key={duration}
-                                          onClick={() =>
-                                            quickSetReps(
-                                              exerciseIndex,
-                                              setIndex,
-                                              duration
-                                            )
-                                          }
-                                          className="bg-gradient-to-r from-blue-100 to-blue-200 hover:from-blue-200 hover:to-blue-300 text-blue-700 py-2 px-2 rounded-lg text-sm font-bold transition-all duration-200 shadow-sm hover:shadow-md transform hover:-translate-y-0.5"
-                                        >
-                                          {duration}s
-                                        </button>
-                                      )
-                                    )
-                                  : [5, 10, 15, 20, 25, 30].map((reps) => (
-                                      <button
-                                        key={reps}
-                                        onClick={() =>
-                                          quickSetReps(
-                                            exerciseIndex,
-                                            setIndex,
-                                            reps
-                                          )
-                                        }
-                                        className="bg-gradient-to-r from-blue-100 to-blue-200 hover:from-blue-200 hover:to-blue-300 text-blue-700 py-2 px-2 rounded-lg text-sm font-bold transition-all duration-200 shadow-sm hover:shadow-md transform hover:-translate-y-0.5"
-                                      >
-                                        {reps}
-                                      </button>
-                                    ))}
-                              </div>
-                            </div>
-
-                            {/* Fine Adjustment */}
-                            <div>
-                              <span className="text-xs font-semibold text-gray-700 mb-2 block">
-                                Adjust:
-                              </span>
-                              <div className="grid grid-cols-4 gap-2">
-                                <button
-                                  onClick={() =>
-                                    adjustReps(
-                                      exerciseIndex,
-                                      setIndex,
-                                      isTimerBased ? -15 : -5
-                                    )
-                                  }
-                                  className="bg-gradient-to-r from-red-100 to-red-200 hover:from-red-200 hover:to-red-300 text-red-700 py-2 px-2 rounded-lg font-bold text-sm transition-all duration-200 shadow-sm hover:shadow-md transform hover:-translate-y-0.5"
-                                >
-                                  {isTimerBased ? "-15s" : "-5"}
-                                </button>
-                                <button
-                                  onClick={() =>
-                                    adjustReps(
-                                      exerciseIndex,
-                                      setIndex,
-                                      isTimerBased ? -5 : -1
-                                    )
-                                  }
-                                  className="bg-gradient-to-r from-gray-100 to-gray-200 hover:from-gray-200 hover:to-gray-300 text-gray-700 py-2 px-2 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md transform hover:-translate-y-0.5 flex items-center justify-center"
-                                >
-                                  <Minus size={16} />
-                                </button>
-                                <button
-                                  onClick={() =>
-                                    adjustReps(
-                                      exerciseIndex,
-                                      setIndex,
-                                      isTimerBased ? 5 : 1
-                                    )
-                                  }
-                                  className="bg-gradient-to-r from-gray-100 to-gray-200 hover:from-gray-200 hover:to-gray-300 text-gray-700 py-2 px-2 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md transform hover:-translate-y-0.5 flex items-center justify-center"
-                                >
-                                  <Plus size={16} />
-                                </button>
-                                <button
-                                  onClick={() =>
-                                    adjustReps(
-                                      exerciseIndex,
-                                      setIndex,
-                                      isTimerBased ? 15 : 5
-                                    )
-                                  }
-                                  className="bg-gradient-to-r from-green-100 to-green-200 hover:from-green-200 hover:to-green-300 text-green-700 py-2 px-2 rounded-lg font-bold text-sm transition-all duration-200 shadow-sm hover:shadow-md transform hover:-translate-y-0.5"
-                                >
-                                  {isTimerBased ? "+15s" : "+5"}
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    })}
                   </div>
                 )}
               </div>

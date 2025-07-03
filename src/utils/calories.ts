@@ -1,64 +1,30 @@
 import { Exercise } from "../types/workout";
 
-// Base calorie estimates per rep for different exercise types
-const CALORIE_ESTIMATES: Record<string, number> = {
-  // Chest exercises (push-ups variations)
-  chest: 0.5,
-  // Back exercises (pull-ups, rows)
-  back: 0.6,
-  // Arms exercises (dips, curls)
-  arms: 0.4,
-  // Legs exercises (squats, lunges)
-  legs: 0.8,
-  // Core exercises (planks, crunches)
-  core: 0.3,
+const DEFAULT_WEIGHT_KG = 64;
+// MET values for common exercise categories
+const MET_VALUES: Record<string, number> = {
+  chest: 8.0, // push-ups
+  back: 5.0, // rows, pull-ups
+  arms: 3.8, // curls, dips
+  legs: 5.0, // squats, lunges
+  core: 3.8, // crunches, sit-ups
+  jumping: 8.0, // jumping jacks
+  plank: 3.3,
 };
 
-// Calorie estimates per second for timer-based exercises
-const TIMER_CALORIE_ESTIMATES: Record<string, number> = {
-  // Core hold exercises (planks, hollow body holds, etc.)
-  core: 0.02,
-  // Other categories can be added as needed
-  chest: 0.015,
-  back: 0.018,
-  arms: 0.012,
-  legs: 0.025,
-};
-
-export const calculateCaloriesForExercise = (
+export function calculateCaloriesForExercise(
   exercise: Exercise,
-  reps: number
-): number => {
-  // For timer-based exercises, calculate based on duration (seconds)
-  if (exercise.timerType === "hold") {
-    const baseCaloriesPerSecond =
-      TIMER_CALORIE_ESTIMATES[exercise.category] || 0.015;
-
-    // Adjust based on difficulty
-    let difficultyMultiplier = 1;
-    switch (exercise.difficulty) {
-      case "Beginner":
-        difficultyMultiplier = 0.8;
-        break;
-      case "Intermediate":
-        difficultyMultiplier = 1.0;
-        break;
-      case "Advanced":
-        difficultyMultiplier = 1.3;
-        break;
-      default:
-        difficultyMultiplier = 1.0;
-    }
-
-    return (
-      Math.round(baseCaloriesPerSecond * reps * difficultyMultiplier * 10) / 10
-    );
+  repsOrSeconds: number,
+  weightKg: number = DEFAULT_WEIGHT_KG
+): number {
+  // Estimate time for rep-based exercises (e.g., 2 seconds per rep)
+  let seconds = repsOrSeconds;
+  if (exercise.timerType !== "hold") {
+    seconds = repsOrSeconds * 2; // 2 seconds per rep
   }
-
-  // For rep-based exercises, use the original calculation
-  const baseCalories = CALORIE_ESTIMATES[exercise.category] || 0.5;
-
-  // Adjust based on difficulty
+  const met = MET_VALUES[exercise.category] || 4.0;
+  const calories = ((met * 3.5 * weightKg) / 200) * (seconds / 60);
+  // Optionally apply difficulty multiplier as before
   let difficultyMultiplier = 1;
   switch (exercise.difficulty) {
     case "Beginner":
@@ -68,19 +34,19 @@ export const calculateCaloriesForExercise = (
       difficultyMultiplier = 1.0;
       break;
     case "Advanced":
-      difficultyMultiplier = 1.3;
+      difficultyMultiplier = 1.2;
       break;
     default:
       difficultyMultiplier = 1.0;
   }
-
-  return Math.round(baseCalories * reps * difficultyMultiplier * 10) / 10;
-};
+  return Math.round(calories * difficultyMultiplier * 10) / 10;
+}
 
 export const calculateTotalCalories = (
-  exercises: Array<{ exercise: Exercise; totalReps: number }>
+  exercises: Array<{ exercise: Exercise; totalReps: number }>,
+  weightKg: number = DEFAULT_WEIGHT_KG
 ): number => {
   return exercises.reduce((total, { exercise, totalReps }) => {
-    return total + calculateCaloriesForExercise(exercise, totalReps);
+    return total + calculateCaloriesForExercise(exercise, totalReps, weightKg);
   }, 0);
 };
