@@ -4,6 +4,7 @@ import { Play } from "lucide-react";
 import { WorkoutHeader } from "../components/WorkoutHeader";
 import { ExerciseCard } from "../components/ExerciseCard";
 import { workoutCategories } from "../data/workouts";
+import { Exercise } from "../types/workout";
 
 export const WorkoutPage: React.FC = () => {
   const { category } = useParams<{ category: string }>();
@@ -26,6 +27,24 @@ export const WorkoutPage: React.FC = () => {
   const handleStartTracking = () => {
     navigate(`/tracker/category/${workoutCategory.id}`);
   };
+
+  // Sort exercises by difficulty: Beginner -> Intermediate -> Advanced
+  const sortExercisesByDifficulty = (exercises: Exercise[]): Exercise[] => {
+    const difficultyOrder = {
+      Beginner: 1,
+      Intermediate: 2,
+      Advanced: 3,
+    };
+
+    return [...exercises].sort((a, b) => {
+      const aDifficulty = a.difficulty || "Intermediate"; // Default to Intermediate if no difficulty
+      const bDifficulty = b.difficulty || "Intermediate";
+
+      return difficultyOrder[aDifficulty] - difficultyOrder[bDifficulty];
+    });
+  };
+
+  const sortedExercises = sortExercisesByDifficulty(workoutCategory.exercises);
 
   return (
     <div className="min-h-screen bg-gray-50 pt-16">
@@ -62,7 +81,7 @@ export const WorkoutPage: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {workoutCategory.exercises.map((exercise, index) => (
+            {sortedExercises.map((exercise, index) => (
               <ExerciseCard
                 key={exercise.id}
                 exercise={exercise}

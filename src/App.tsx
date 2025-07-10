@@ -6,6 +6,8 @@ import {
   useLocation,
 } from "react-router-dom";
 import { HomePage } from "./pages/HomePage";
+import { WorkoutHomePage } from "./pages/WorkoutHomePage";
+import { YogaPage } from "./pages/YogaPage";
 import { WorkoutPage } from "./pages/WorkoutPage";
 import { SchedulePage } from "./pages/SchedulePage";
 import { TrackerPage } from "./pages/TrackerPage";
@@ -18,6 +20,9 @@ import { ProtectedRoute } from "./components/ProtectedRoute";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import { useEffect } from "react";
 import { ToastContainer } from "react-toastify";
+import { YogaSessionPage } from "./pages/YogaSessionPage";
+import { DaySelectionPage } from "./pages/DaySelectionPage";
+import { YogaTrackerPage } from "./pages/YogaTrackerPage";
 
 const AppContent = () => {
   const { currentUser, loading } = useAuth();
@@ -43,6 +48,46 @@ const AppContent = () => {
             element={
               <ProtectedRoute>
                 <HomePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/workouts"
+            element={
+              <ProtectedRoute>
+                <WorkoutHomePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/yoga"
+            element={
+              <ProtectedRoute>
+                <YogaPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/yoga/:categoryId"
+            element={
+              <ProtectedRoute>
+                <YogaPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/yoga-session/:day"
+            element={
+              <ProtectedRoute>
+                <YogaSessionPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/yoga-tracker/:categoryId"
+            element={
+              <ProtectedRoute>
+                <YogaTrackerPage />
               </ProtectedRoute>
             }
           />
@@ -83,6 +128,14 @@ const AppContent = () => {
             element={
               <ProtectedRoute>
                 <DataPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/day/:day"
+            element={
+              <ProtectedRoute>
+                <DaySelectionPage />
               </ProtectedRoute>
             }
           />

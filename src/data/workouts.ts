@@ -7,6 +7,7 @@ export interface Exercise {
   section?: string; // Add section for grouping exercises
   timerType?: "hold" | "reps";
   defaultDuration?: number;
+  bilateral?: boolean; // true for exercises that need both sides (left and right)
 }
 
 export interface WorkoutDay {
@@ -42,6 +43,8 @@ export const chestExercises: Exercise[] = [
     name: "Hold Push-Up",
     category: "chest",
     difficulty: "Intermediate",
+    timerType: "hold",
+    defaultDuration: 30,
   },
   {
     id: "chest-5",
@@ -184,6 +187,8 @@ export const backExercises: Exercise[] = [
     name: "Isometric Shrug Hold",
     category: "back",
     difficulty: "Intermediate",
+    timerType: "hold",
+    defaultDuration: 30,
   },
   {
     id: "back-3",
@@ -202,6 +207,8 @@ export const backExercises: Exercise[] = [
     name: "Reverse Plank Shrugs",
     category: "back",
     difficulty: "Intermediate",
+    timerType: "hold",
+    defaultDuration: 30,
   },
   {
     id: "back-6",
@@ -268,6 +275,8 @@ export const backExercises: Exercise[] = [
     name: "Prone Cobra Hold",
     category: "back",
     difficulty: "Intermediate",
+    timerType: "hold",
+    defaultDuration: 30,
   },
   {
     id: "back-17",
@@ -310,6 +319,8 @@ export const backExercises: Exercise[] = [
     name: "Dead Hangs",
     category: "back",
     difficulty: "Intermediate",
+    timerType: "hold",
+    defaultDuration: 30,
   },
   {
     id: "back-24",
@@ -346,6 +357,7 @@ export const backExercises: Exercise[] = [
     name: "One Arm Backpack Row",
     category: "back",
     difficulty: "Intermediate",
+    bilateral: true,
   },
   { id: "back-30", name: "Bird Dog", category: "back", difficulty: "Beginner" },
   {
@@ -353,12 +365,16 @@ export const backExercises: Exercise[] = [
     name: "Plank to Downward Dog",
     category: "back",
     difficulty: "Intermediate",
+    timerType: "hold",
+    defaultDuration: 30,
   },
   {
     id: "back-32",
     name: "Superman Hold",
     category: "back",
     difficulty: "Intermediate",
+    timerType: "hold",
+    defaultDuration: 30,
   },
   {
     id: "back-33",
@@ -473,12 +489,19 @@ export const armsExercises: Exercise[] = [
     category: "arms",
     difficulty: "Beginner",
   },
-  { id: "arms-16", name: "Curl", category: "arms", difficulty: "Beginner" },
+  {
+    id: "arms-16",
+    name: "Curl",
+    category: "arms",
+    difficulty: "Beginner",
+    bilateral: true,
+  },
   {
     id: "arms-17",
     name: "Hammer Curl",
     category: "arms",
     difficulty: "Beginner",
+    bilateral: true,
   },
 ];
 
@@ -519,6 +542,8 @@ export const legsExercises: Exercise[] = [
     name: "Split Squat Hold",
     category: "legs",
     difficulty: "Intermediate",
+    timerType: "hold",
+    defaultDuration: 30,
   },
   {
     id: "legs-7",
@@ -567,6 +592,8 @@ export const legsExercises: Exercise[] = [
     name: "Feet-Elevated Wall Sits",
     category: "legs",
     difficulty: "Intermediate",
+    timerType: "hold",
+    defaultDuration: 30,
   },
   {
     id: "legs-15",
@@ -603,6 +630,7 @@ export const legsExercises: Exercise[] = [
     name: "Hover Lunges",
     category: "legs",
     difficulty: "Intermediate",
+    bilateral: true,
   },
   {
     id: "legs-21",
@@ -615,54 +643,63 @@ export const legsExercises: Exercise[] = [
     name: "Forward Lunges",
     category: "legs",
     difficulty: "Beginner",
+    bilateral: true,
   },
   {
     id: "legs-23",
     name: "Walking Lunges",
     category: "legs",
     difficulty: "Beginner",
+    bilateral: true,
   },
   {
     id: "legs-24",
     name: "Reverse Lunges",
     category: "legs",
     difficulty: "Beginner",
+    bilateral: true,
   },
   {
     id: "legs-25",
     name: "Reverse Lunge to Knee Drive",
     category: "legs",
     difficulty: "Intermediate",
+    bilateral: true,
   },
   {
     id: "legs-26",
     name: "Step-Back Lunges",
     category: "legs",
     difficulty: "Intermediate",
+    bilateral: true,
   },
   {
     id: "legs-27",
     name: "Curtsy Lunges",
     category: "legs",
     difficulty: "Intermediate",
+    bilateral: true,
   },
   {
     id: "legs-28",
     name: "Elevated Curtsy Lunge",
     category: "legs",
     difficulty: "Advanced",
+    bilateral: true,
   },
   {
     id: "legs-29",
     name: "Bulgarian Split Squats",
     category: "legs",
     difficulty: "Advanced",
+    bilateral: true,
   },
   {
     id: "legs-30",
     name: "Side Lunge to Knee Drive",
     category: "legs",
     difficulty: "Intermediate",
+    bilateral: true,
   },
   {
     id: "legs-31",
@@ -675,6 +712,7 @@ export const legsExercises: Exercise[] = [
     name: "Single-Leg Romanian Deadlift",
     category: "legs",
     difficulty: "Advanced",
+    bilateral: true,
   },
   {
     id: "legs-33",
@@ -687,6 +725,7 @@ export const legsExercises: Exercise[] = [
     name: "Single-Leg Good Morning",
     category: "legs",
     difficulty: "Advanced",
+    bilateral: true,
   },
   {
     id: "legs-35",
@@ -717,6 +756,7 @@ export const legsExercises: Exercise[] = [
     name: "Single-Leg Calf Raises",
     category: "legs",
     difficulty: "Intermediate",
+    bilateral: true,
   },
   {
     id: "legs-40",
@@ -735,6 +775,8 @@ export const legsExercises: Exercise[] = [
     name: "Wall Sit Calf Raises",
     category: "legs",
     difficulty: "Intermediate",
+    timerType: "hold",
+    defaultDuration: 30,
   },
   {
     id: "legs-43",
@@ -753,6 +795,8 @@ export const legsExercises: Exercise[] = [
     name: "Copenhagen Plank Hold",
     category: "legs",
     difficulty: "Advanced",
+    timerType: "hold",
+    defaultDuration: 30,
   },
   {
     id: "legs-46",
@@ -789,6 +833,7 @@ export const legsExercises: Exercise[] = [
     name: "Single-Leg Glute Bridge",
     category: "legs",
     difficulty: "Advanced",
+    bilateral: true,
   },
   {
     id: "legs-52",
@@ -801,12 +846,14 @@ export const legsExercises: Exercise[] = [
     name: "Donkey Kicks",
     category: "legs",
     difficulty: "Beginner",
+    bilateral: true,
   },
   {
     id: "legs-54",
     name: "Fire Hydrants",
     category: "legs",
     difficulty: "Beginner",
+    bilateral: true,
   },
   {
     id: "legs-55",
@@ -868,7 +915,14 @@ export const legsExercises: Exercise[] = [
     category: "legs",
     difficulty: "Intermediate",
   },
-  { id: "legs-65", name: "Wall Sit", category: "legs", difficulty: "Beginner" },
+  {
+    id: "legs-65",
+    name: "Wall Sit",
+    category: "legs",
+    difficulty: "Beginner",
+    timerType: "hold",
+    defaultDuration: 30,
+  },
   {
     id: "legs-66",
     name: "Farmer Walking",
@@ -886,6 +940,8 @@ export const legsExercises: Exercise[] = [
     name: "Glute Bridge Hold (6 sec)",
     category: "legs",
     difficulty: "Intermediate",
+    timerType: "hold",
+    defaultDuration: 30,
   },
   {
     id: "legs-69",
@@ -2012,6 +2068,8 @@ const legDay2Exercises: Exercise[] = [
     category: "legs",
     difficulty: "Intermediate",
     section: "Bridges & Core Stability",
+    timerType: "hold",
+    defaultDuration: 30,
   },
   {
     id: "leg2-36",

@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from "react";
 import {
-  Plus,
-  Minus,
   Play,
   Pause,
   Save,
   Timer,
-  Check,
-  X,
   ChevronDown,
   ChevronUp,
   Loader2,
@@ -38,9 +34,6 @@ export const WorkoutTracker: React.FC<WorkoutTrackerProps> = ({
   const [elapsedTime, setElapsedTime] = useState(0);
   const [activeExercise, setActiveExercise] = useState<number | null>(null);
   const [isSaving, setIsSaving] = useState(false);
-  const [activeTimers, setActiveTimers] = useState<{ [key: string]: number }>(
-    {}
-  );
 
   // Initialize exercise logs
   useEffect(() => {
@@ -75,23 +68,6 @@ export const WorkoutTracker: React.FC<WorkoutTrackerProps> = ({
     return () => clearInterval(interval);
   }, [isActive, startTime]);
 
-  // Active timers effect
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveTimers((prev) => {
-        const updated = { ...prev };
-        Object.keys(updated).forEach((key) => {
-          if (updated[key] > 0) {
-            updated[key] -= 1;
-          }
-        });
-        return updated;
-      });
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, []);
-
   const startWorkout = () => {
     setIsActive(true);
     setStartTime(new Date());
@@ -99,27 +75,6 @@ export const WorkoutTracker: React.FC<WorkoutTrackerProps> = ({
 
   const pauseWorkout = () => {
     setIsActive(false);
-  };
-
-  const startTimer = (exerciseIndex: number, setIndex: number) => {
-    const exercise = exercises[exerciseIndex];
-    if (exercise.timerType === "hold") {
-      const timerKey = `${exerciseIndex}-${setIndex}`;
-      const duration =
-        exerciseLogs[exerciseIndex].sets[setIndex].duration ||
-        exercise.defaultDuration ||
-        30;
-      setActiveTimers((prev) => ({ ...prev, [timerKey]: duration }));
-    }
-  };
-
-  const stopTimer = (exerciseIndex: number, setIndex: number) => {
-    const timerKey = `${exerciseIndex}-${setIndex}`;
-    setActiveTimers((prev) => {
-      const updated = { ...prev };
-      delete updated[timerKey];
-      return updated;
-    });
   };
 
   const quickSetReps = (
@@ -235,52 +190,6 @@ export const WorkoutTracker: React.FC<WorkoutTrackerProps> = ({
     );
 
     setExerciseLogs(updatedLogs);
-  };
-
-  const addSet = (exerciseIndex: number) => {
-    const updatedLogs = [...exerciseLogs];
-    const exercise = exercises[exerciseIndex];
-    const lastSet =
-      updatedLogs[exerciseIndex].sets[
-        updatedLogs[exerciseIndex].sets.length - 1
-      ];
-
-    const newSet = {
-      reps: lastSet?.reps || 0,
-      duration:
-        exercise.timerType === "hold"
-          ? lastSet?.duration || exercise.defaultDuration || 30
-          : undefined,
-      completed: false,
-    };
-
-    updatedLogs[exerciseIndex].sets.push(newSet);
-    setExerciseLogs(updatedLogs);
-  };
-
-  const removeSet = (exerciseIndex: number, setIndex: number) => {
-    const updatedLogs = [...exerciseLogs];
-    if (updatedLogs[exerciseIndex].sets.length > 1) {
-      updatedLogs[exerciseIndex].sets.splice(setIndex, 1);
-
-      // Recalculate totals
-      const exercise = exercises[exerciseIndex];
-      const totalReps = updatedLogs[exerciseIndex].sets.reduce((sum, set) => {
-        if (set.completed) {
-          return (
-            sum + (exercise.timerType === "hold" ? set.duration || 0 : set.reps)
-          );
-        }
-        return sum;
-      }, 0);
-      updatedLogs[exerciseIndex].totalReps = totalReps;
-      updatedLogs[exerciseIndex].totalCalories = calculateCaloriesForExercise(
-        exercise,
-        totalReps
-      );
-
-      setExerciseLogs(updatedLogs);
-    }
   };
 
   const saveWorkout = async () => {

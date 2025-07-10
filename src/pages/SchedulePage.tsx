@@ -44,6 +44,11 @@ export const SchedulePage: React.FC = () => {
     navigate(`/tracker/schedule/${workoutDay.shortDay.toLowerCase()}`);
   };
 
+  const handleBack = () => {
+    // Navigate back to home page with the selected day
+    navigate("/", { state: { selectedDay: workoutDay.day } });
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 pt-16">
       <WorkoutHeader
@@ -51,6 +56,7 @@ export const SchedulePage: React.FC = () => {
         subtitle={workoutDay.description}
         exerciseCount={workoutDay.exercises.length}
         gradient={gradient}
+        onBack={handleBack}
       />
 
       <div className="px-6 py-12">

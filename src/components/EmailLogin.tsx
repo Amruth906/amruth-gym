@@ -136,7 +136,7 @@ const EmailLogin = () => {
           disabled={loading}
         />
       </div>
-
+  
       {/* Submit Button */}
       <button
         onClick={handleAuth}

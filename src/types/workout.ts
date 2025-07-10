@@ -8,6 +8,7 @@ export interface Exercise {
   section?: string; // Add section for grouping exercises
   timerType?: "hold" | "reps"; // 'hold' for timer-based exercises, 'reps' for rep-based exercises
   defaultDuration?: number; // Default duration in seconds for timer-based exercises
+  bilateral?: boolean; // true for exercises that need both sides (left and right)
 }
 
 export interface WorkoutSet {
