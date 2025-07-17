@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { yogaCategories, YogaPose } from "../data/yoga";
 import { usePrompt } from "../utils/usePrompt";
+import { v4 as uuidv4 } from "uuid";
 
 // Extend YogaPose for this file to include optional caloriesPerSecond
 interface YogaTrackerPose extends YogaPose {
@@ -11,6 +12,7 @@ interface YogaTrackerPose extends YogaPose {
 }
 
 interface YogaSessionLog {
+  id: string;
   category: string;
   poses: Array<YogaTrackerPose & { duration?: number; calories?: number }>;
   completedAt: string;
@@ -35,6 +37,7 @@ function saveYogaSessionLog(
   durations: number[]
 ) {
   const log: YogaSessionLog = {
+    id: uuidv4(), // Add unique id
     category: categoryName,
     poses: poses.map((p, i) => ({
       ...p,
@@ -201,6 +204,7 @@ export const YogaTrackerPage: React.FC = () => {
   };
 
   const handleSave = () => {
+    if (sessionSaved) return;
     saveYogaSessionLog(trackerCategory?.name || "", poses, customDurations);
     setSessionSaved(true);
     setTimeout(() => {
@@ -247,6 +251,7 @@ export const YogaTrackerPage: React.FC = () => {
     customRest,
     trackerCategory?.name,
     showSummary,
+    sessionSaved,
   ]);
 
   // Rest timer effect
@@ -422,11 +427,10 @@ export const YogaTrackerPage: React.FC = () => {
               ))}
             </ul>
             <button
-              className="px-6 py-2 rounded-full bg-green-500 hover:bg-green-600 text-white font-bold shadow"
-              onClick={handleSave}
-              disabled={sessionSaved}
+              className="mt-8 px-8 py-3 bg-green-500 hover:bg-green-600 text-white rounded-full font-bold text-lg shadow-lg transition-all"
+              onClick={() => navigate("/")}
             >
-              {sessionSaved ? "Saved!" : "Save"}
+              Thank You
             </button>
           </div>
         </div>

@@ -17,11 +17,14 @@ import {
 import { YogaPose } from "../data/yoga";
 
 // Define a type for a yoga session log
-interface YogaSessionLog {
+type YogaSessionLog = {
+  id: string;
   category: string;
-  poses: Array<YogaPose & { duration?: number; calories?: number }>;
+  poses: YogaPoseWithStats[];
   completedAt: string;
-}
+};
+
+type YogaPoseWithStats = YogaPose & { duration?: number; calories?: number };
 
 export const WorkoutHistory: React.FC = () => {
   const [tab, setTab] = useState<"workout" | "yoga">("workout");
@@ -53,6 +56,10 @@ export const WorkoutHistory: React.FC = () => {
     log: YogaSessionLog;
   } | null>(null);
 
+  // Add state for yoga delete all confirmation and clearing
+  const [showYogaConfirm, setShowYogaConfirm] = useState(false);
+  const [clearingAllYoga, setClearingAllYoga] = useState(false);
+
   useEffect(() => {
     let unsubscribe: (() => void) | undefined;
 
@@ -73,17 +80,29 @@ export const WorkoutHistory: React.FC = () => {
     const logs: YogaSessionLog[] = JSON.parse(
       localStorage.getItem("yogaSessionLogs") || "[]"
     );
-    setYogaLogs(logs.reverse());
+    // When loading yoga logs from localStorage, ensure each log has an id
+    let updated = false;
+    const logsWithId = logs.map((log: any) => {
+      if (!log.id) {
+        log.id = Math.random().toString(36).slice(2) + Date.now();
+        updated = true;
+      }
+      return log;
+    });
+    if (updated) {
+      localStorage.setItem("yogaSessionLogs", JSON.stringify(logsWithId));
+    }
+    setYogaLogs(logsWithId.reverse());
     // Calculate yoga stats
-    if (logs.length > 0) {
-      const totalSessions = logs.length;
-      const totalCalories = logs.reduce(
+    if (logsWithId.length > 0) {
+      const totalSessions = logsWithId.length;
+      const totalCalories = logsWithId.reduce(
         (sum: number, log: YogaSessionLog) =>
           sum +
           log.poses.reduce((s: number, p) => s + (Number(p.calories) || 0), 0),
         0
       );
-      const totalTime = logs.reduce(
+      const totalTime = logsWithId.reduce(
         (sum: number, log: YogaSessionLog) =>
           sum +
           log.poses.reduce((s: number, p) => s + (Number(p.duration) || 0), 0),
@@ -227,14 +246,16 @@ export const WorkoutHistory: React.FC = () => {
   };
 
   // Delete yoga session
-  const handleDeleteYogaSession = (idx: number) => {
-    setShowYogaDeleteConfirm({ idx, log: yogaLogs[idx] });
+  const handleDeleteYogaSession = (id: string) => {
+    const idx = yogaLogs.findIndex((log) => log.id === id);
+    if (idx !== -1) {
+      setShowYogaDeleteConfirm({ idx, log: yogaLogs[idx] });
+    }
   };
   const confirmDeleteYogaSession = () => {
     if (showYogaDeleteConfirm) {
-      const idx = showYogaDeleteConfirm.idx;
-      const updatedLogs = [...yogaLogs];
-      updatedLogs.splice(idx, 1);
+      const id = showYogaDeleteConfirm.log.id;
+      const updatedLogs = yogaLogs.filter((log) => log.id !== id);
       setYogaLogs(updatedLogs);
       localStorage.setItem(
         "yogaSessionLogs",
@@ -273,6 +294,24 @@ export const WorkoutHistory: React.FC = () => {
           avgCalories: 0,
         });
       }
+    }
+  };
+
+  // Add handler to clear all yoga data
+  const handleDeleteAllYoga = async () => {
+    setClearingAllYoga(true);
+    try {
+      localStorage.removeItem("yogaSessionLogs");
+      setYogaLogs([]);
+      setYogaStats({
+        totalSessions: 0,
+        totalCalories: 0,
+        totalTime: 0,
+        avgCalories: 0,
+      });
+      setShowYogaConfirm(false);
+    } finally {
+      setClearingAllYoga(false);
     }
   };
 
@@ -639,6 +678,47 @@ export const WorkoutHistory: React.FC = () => {
               </div>
             </div>
           )}
+          {tab === "yoga" && filteredYogaLogs.length > 0 && (
+            <div className="mb-8 flex justify-end items-center">
+              <button
+                className="flex items-center gap-2 px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg font-semibold shadow transition-all"
+                onClick={() => setShowYogaConfirm(true)}
+                disabled={clearingAllYoga}
+              >
+                <Trash2 className="w-5 h-5" />
+                {clearingAllYoga ? "Deleting..." : "Delete All"}
+              </button>
+            </div>
+          )}
+          {showYogaConfirm && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+              <div className="bg-white rounded-xl shadow-lg p-8 max-w-sm w-full text-center">
+                <h2 className="text-xl font-bold mb-4 text-gray-900">
+                  Confirm Delete All
+                </h2>
+                <p className="mb-6 text-gray-700">
+                  Are you sure you want to delete <b>all</b> yoga sessions? This
+                  action cannot be undone.
+                </p>
+                <div className="flex justify-center gap-4">
+                  <button
+                    className="px-6 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg font-semibold"
+                    onClick={handleDeleteAllYoga}
+                    disabled={clearingAllYoga}
+                  >
+                    Yes, Delete All
+                  </button>
+                  <button
+                    className="px-6 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-lg font-semibold"
+                    onClick={() => setShowYogaConfirm(false)}
+                    disabled={clearingAllYoga}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
           <div className="space-y-4">
             {filteredYogaLogs.length === 0 ? (
               <div className="bg-white rounded-xl shadow-md p-8 text-center">
@@ -650,16 +730,18 @@ export const WorkoutHistory: React.FC = () => {
             ) : (
               filteredYogaLogs.map((log, idx) => {
                 const totalTime = log.poses.reduce(
-                  (sum: number, p: YogaPose) => sum + (Number(p.duration) || 0),
+                  (sum: number, p: YogaPoseWithStats) =>
+                    sum + (Number(p.duration) || 0),
                   0
                 );
                 const totalCalories = log.poses.reduce(
-                  (sum: number, p: YogaPose) => sum + (Number(p.calories) || 0),
+                  (sum: number, p: YogaPoseWithStats) =>
+                    sum + (Number(p.calories) || 0),
                   0
                 );
                 return (
                   <div
-                    key={log.completedAt + idx}
+                    key={log.id}
                     className="bg-white rounded-xl shadow p-6 flex flex-col gap-2"
                   >
                     <div
@@ -688,7 +770,7 @@ export const WorkoutHistory: React.FC = () => {
                         className="ml-4 p-2 bg-red-100 hover:bg-red-200 rounded-full text-red-600 transition-all"
                         onClick={(e) => {
                           e.stopPropagation();
-                          handleDeleteYogaSession(idx);
+                          handleDeleteYogaSession(log.id);
                         }}
                         title="Delete session"
                       >
@@ -697,7 +779,7 @@ export const WorkoutHistory: React.FC = () => {
                     </div>
                     {expandedYogaIdx === idx && (
                       <ul className="text-gray-700 text-base ml-2 mt-2">
-                        {log.poses.map((p: YogaPose, i: number) => (
+                        {log.poses.map((p: YogaPoseWithStats, i: number) => (
                           <li
                             key={p.name + i}
                             className="flex justify-between border-b last:border-b-0 py-1"

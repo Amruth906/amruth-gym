@@ -223,11 +223,11 @@ export const HomePage: React.FC = () => {
           </p>
         </div>
 
-        <div className="flex flex-col md:flex-row gap-12 justify-center mb-20">
+        <div className="flex flex-col md:flex-row gap-12 justify-center mb-20 items-center">
           {/* Workouts Card */}
           <button
             onClick={() => navigate("/workouts")}
-            className="w-80 h-64 bg-white/30 backdrop-blur-xl rounded-3xl shadow-2xl flex flex-col items-center justify-center border-2 border-transparent hover:border-blue-400 hover:shadow-blue-300/40 transition-all duration-300 group relative overflow-hidden"
+            className="w-full max-w-xs sm:w-80 h-64 bg-white/30 backdrop-blur-xl rounded-3xl shadow-2xl flex flex-col items-center justify-center border-2 border-transparent hover:border-blue-400 hover:shadow-blue-300/40 transition-all duration-300 group relative overflow-hidden mx-auto"
             style={{ boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.18)" }}
           >
             <span className="absolute inset-0 rounded-3xl bg-gradient-to-br from-blue-200/30 to-blue-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0"></span>
@@ -246,7 +246,7 @@ export const HomePage: React.FC = () => {
           {/* Yoga Card */}
           <button
             onClick={() => navigate("/yoga")}
-            className="w-80 h-64 bg-white/30 backdrop-blur-xl rounded-3xl shadow-2xl flex flex-col items-center justify-center border-2 border-transparent hover:border-green-400 hover:shadow-green-300/40 transition-all duration-300 group relative overflow-hidden"
+            className="w-full max-w-xs sm:w-80 h-64 bg-white/30 backdrop-blur-xl rounded-3xl shadow-2xl flex flex-col items-center justify-center border-2 border-transparent hover:border-green-400 hover:shadow-green-300/40 transition-all duration-300 group relative overflow-hidden mx-auto"
             style={{ boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.18)" }}
           >
             <span className="absolute inset-0 rounded-3xl bg-gradient-to-br from-green-200/30 to-green-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0"></span>
@@ -415,9 +415,9 @@ export const HomePage: React.FC = () => {
         </div>
 
         {/* READY TO TRANSFORM Section */}
-        <div className="relative z-10 px-6 py-16">
+        <div className="relative z-10 px-2 sm:px-6 py-16">
           <div className="max-w-4xl mx-auto text-center">
-            <div className="bg-white/15 backdrop-blur-xl rounded-3xl border border-white/30 shadow-2xl p-12">
+            <div className="bg-white/15 backdrop-blur-xl rounded-3xl border border-white/30 shadow-2xl p-4 sm:p-8 md:p-12">
               <h3 className="text-4xl md:text-5xl font-black text-white mb-6">
                 <span className="bg-gradient-to-r from-yellow-200 to-orange-300 bg-clip-text text-transparent">
                   READY
@@ -433,7 +433,7 @@ export const HomePage: React.FC = () => {
                 Start your fitness journey today and become the best version of
                 yourself
               </p>
-              <button className="group relative px-12 py-4 bg-gradient-to-r from-pink-300 to-purple-400 text-white font-bold text-xl rounded-full shadow-2xl transform hover:scale-105 transition-all duration-300 hover:shadow-pink-300/50">
+              <button className="group relative w-full sm:w-auto px-6 sm:px-12 py-4 bg-gradient-to-r from-pink-300 to-purple-400 text-white font-bold text-xl rounded-full shadow-2xl transform hover:scale-105 transition-all duration-300 hover:shadow-pink-300/50 mx-auto flex justify-center">
                 <span className="relative z-10 flex items-center gap-3">
                   <Users className="w-6 h-6" />
                   Join the Community

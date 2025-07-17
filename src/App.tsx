@@ -23,6 +23,10 @@ import { ToastContainer } from "react-toastify";
 import { YogaSessionPage } from "./pages/YogaSessionPage";
 import { DaySelectionPage } from "./pages/DaySelectionPage";
 import { YogaTrackerPage } from "./pages/YogaTrackerPage";
+import { UserDashboardPage } from "./pages/UserDashboardPage";
+import { ProgressTrackerPage } from "./pages/ProgressTrackerPage";
+import { BMICalculatorPage } from "./pages/BMICalculatorPage";
+import { Footer } from "./components/Footer";
 
 const AppContent = () => {
   const { currentUser, loading } = useAuth();
@@ -32,7 +36,9 @@ const AppContent = () => {
   if (loading) {
     return (
       <div className="w-screen h-screen flex items-center justify-center bg-gradient-to-br from-[#a7ffeb] via-[#40c9ff] to-[#30a2ff]">
-        {/* You can use a spinner here if you want */}
+        <span className="text-4xl font-extrabold text-white drop-shadow-lg">
+          AmruthFit
+        </span>
       </div>
     );
   }
@@ -136,6 +142,30 @@ const AppContent = () => {
             element={
               <ProtectedRoute>
                 <DaySelectionPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <UserDashboardPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/progress-tracker"
+            element={
+              <ProtectedRoute>
+                <ProgressTrackerPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/bmi-calculator"
+            element={
+              <ProtectedRoute>
+                <BMICalculatorPage />
               </ProtectedRoute>
             }
           />

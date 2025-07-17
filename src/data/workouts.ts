@@ -1124,7 +1124,7 @@ export const coreExercises: Exercise[] = [
 
 // Create specific exercise arrays for the new workout days
 const push1Exercises: Exercise[] = [
-  // Chest exercises for strength focus
+  // Beginner
   {
     id: "push1-1",
     name: "Standard Push-Up",
@@ -1138,16 +1138,23 @@ const push1Exercises: Exercise[] = [
     difficulty: "Beginner",
   },
   {
-    id: "push1-3",
-    name: "Decline Push-Up",
-    category: "chest",
-    difficulty: "Intermediate",
-  },
-  {
     id: "push1-4",
     name: "Wide-Grip Push-Up",
     category: "chest",
     difficulty: "Beginner",
+  },
+  {
+    id: "push1-10",
+    name: "Floor Tricep Dips",
+    category: "arms",
+    difficulty: "Beginner",
+  },
+  // Intermediate
+  {
+    id: "push1-3",
+    name: "Decline Push-Up",
+    category: "chest",
+    difficulty: "Intermediate",
   },
   {
     id: "push1-5",
@@ -1168,22 +1175,10 @@ const push1Exercises: Exercise[] = [
     difficulty: "Intermediate",
   },
   {
-    id: "push1-8",
-    name: "Elevated Diamond Push-Up",
-    category: "arms",
-    difficulty: "Advanced",
-  },
-  {
     id: "push1-9",
     name: "Chair Dips",
     category: "arms",
     difficulty: "Intermediate",
-  },
-  {
-    id: "push1-10",
-    name: "Floor Tricep Dips",
-    category: "arms",
-    difficulty: "Beginner",
   },
   {
     id: "push1-11",
@@ -1209,10 +1204,43 @@ const push1Exercises: Exercise[] = [
     category: "chest",
     difficulty: "Intermediate",
   },
+  // Advanced
+  {
+    id: "push1-8",
+    name: "Elevated Diamond Push-Up",
+    category: "arms",
+    difficulty: "Advanced",
+  },
 ];
 
 const pull1Exercises: Exercise[] = [
-  // Pull exercises with scapular focus
+  // Beginner
+  {
+    id: "pull1-8",
+    name: "Scapular Wall Shrug",
+    category: "back",
+    difficulty: "Beginner",
+  },
+  {
+    id: "pull1-10",
+    name: "Reclined Rhomboid Squeeze",
+    category: "back",
+    difficulty: "Beginner",
+  },
+  {
+    id: "pull1-11",
+    name: "Seated Back Squeeze",
+    category: "back",
+    difficulty: "Beginner",
+  },
+  { id: "pull1-14", name: "Curl", category: "arms", difficulty: "Beginner" },
+  {
+    id: "pull1-15",
+    name: "Hammer Curl",
+    category: "arms",
+    difficulty: "Beginner",
+  },
+  // Intermediate
   {
     id: "pull1-1",
     name: "Pull-Ups",
@@ -1224,12 +1252,6 @@ const pull1Exercises: Exercise[] = [
     name: "Chin-Up Pull-Up",
     category: "back",
     difficulty: "Intermediate",
-  },
-  {
-    id: "pull1-3",
-    name: "Wide Grip Pull-Up",
-    category: "back",
-    difficulty: "Advanced",
   },
   {
     id: "pull1-4",
@@ -1250,34 +1272,10 @@ const pull1Exercises: Exercise[] = [
     difficulty: "Intermediate",
   },
   {
-    id: "pull1-7",
-    name: "Hanging Scapular Depression",
-    category: "back",
-    difficulty: "Advanced",
-  },
-  {
-    id: "pull1-8",
-    name: "Scapular Wall Shrug",
-    category: "back",
-    difficulty: "Beginner",
-  },
-  {
     id: "pull1-9",
     name: "Reverse Plank Shrugs",
     category: "back",
     difficulty: "Intermediate",
-  },
-  {
-    id: "pull1-10",
-    name: "Reclined Rhomboid Squeeze",
-    category: "back",
-    difficulty: "Beginner",
-  },
-  {
-    id: "pull1-11",
-    name: "Seated Back Squeeze",
-    category: "back",
-    difficulty: "Beginner",
   },
   {
     id: "pull1-12",
@@ -1291,17 +1289,91 @@ const pull1Exercises: Exercise[] = [
     category: "back",
     difficulty: "Intermediate",
   },
-  { id: "pull1-14", name: "Curl", category: "arms", difficulty: "Beginner" },
+  // Advanced
   {
-    id: "pull1-15",
-    name: "Hammer Curl",
-    category: "arms",
-    difficulty: "Beginner",
+    id: "pull1-3",
+    name: "Wide Grip Pull-Up",
+    category: "back",
+    difficulty: "Advanced",
+  },
+  {
+    id: "pull1-7",
+    name: "Hanging Scapular Depression",
+    category: "back",
+    difficulty: "Advanced",
   },
 ];
 
 const push2Exercises: Exercise[] = [
-  // Explosive and mobility focused push exercises
+  // Beginner
+  {
+    id: "push2-15",
+    name: "Standing Y Raise",
+    category: "back",
+    difficulty: "Beginner",
+  },
+  {
+    id: "push2-16",
+    name: "Standing T Raise",
+    category: "back",
+    difficulty: "Beginner",
+  },
+  {
+    id: "push2-17",
+    name: "Wall Angels",
+    category: "back",
+    difficulty: "Beginner",
+  },
+  {
+    id: "push2-18",
+    name: "Arm Circles",
+    category: "back",
+    difficulty: "Beginner",
+  },
+  // Intermediate
+  {
+    id: "push2-5",
+    name: "Bear Push-Up",
+    category: "chest",
+    difficulty: "Intermediate",
+  },
+  {
+    id: "push2-9",
+    name: "Shoulder Tap Push-Up",
+    category: "chest",
+    difficulty: "Intermediate",
+  },
+  {
+    id: "push2-10",
+    name: "Shuffle Push-Up",
+    category: "chest",
+    difficulty: "Intermediate",
+  },
+  {
+    id: "push2-11",
+    name: "Staggered Push-Up",
+    category: "chest",
+    difficulty: "Intermediate",
+  },
+  {
+    id: "push2-13",
+    name: "Prone T Raise",
+    category: "back",
+    difficulty: "Intermediate",
+  },
+  {
+    id: "push2-14",
+    name: "Prone Y Raise",
+    category: "back",
+    difficulty: "Intermediate",
+  },
+  {
+    id: "push2-19",
+    name: "Back Window",
+    category: "back",
+    difficulty: "Intermediate",
+  },
+  // Advanced
   {
     id: "push2-1",
     name: "Plyo Push-Up",
@@ -1327,12 +1399,6 @@ const push2Exercises: Exercise[] = [
     difficulty: "Advanced",
   },
   {
-    id: "push2-5",
-    name: "Bear Push-Up",
-    category: "chest",
-    difficulty: "Intermediate",
-  },
-  {
     id: "push2-6",
     name: "Archer Push-Up",
     category: "chest",
@@ -1351,92 +1417,20 @@ const push2Exercises: Exercise[] = [
     difficulty: "Advanced",
   },
   {
-    id: "push2-9",
-    name: "Shoulder Tap Push-Up",
-    category: "chest",
-    difficulty: "Intermediate",
-  },
-  {
-    id: "push2-10",
-    name: "Shuffle Push-Up",
-    category: "chest",
-    difficulty: "Intermediate",
-  },
-  {
-    id: "push2-11",
-    name: "Staggered Push-Up",
-    category: "chest",
-    difficulty: "Intermediate",
-  },
-  {
     id: "push2-12",
     name: "One-Leg Push-Up",
     category: "chest",
     difficulty: "Advanced",
   },
-  {
-    id: "push2-13",
-    name: "Prone T Raise",
-    category: "back",
-    difficulty: "Intermediate",
-  },
-  {
-    id: "push2-14",
-    name: "Prone Y Raise",
-    category: "back",
-    difficulty: "Intermediate",
-  },
-  {
-    id: "push2-15",
-    name: "Standing Y Raise",
-    category: "back",
-    difficulty: "Beginner",
-  },
-  {
-    id: "push2-16",
-    name: "Standing T Raise",
-    category: "back",
-    difficulty: "Beginner",
-  },
-  {
-    id: "push2-17",
-    name: "Wall Angels",
-    category: "back",
-    difficulty: "Beginner",
-  },
-  {
-    id: "push2-18",
-    name: "Arm Circles",
-    category: "back",
-    difficulty: "Beginner",
-  },
-  {
-    id: "push2-19",
-    name: "Back Window",
-    category: "back",
-    difficulty: "Intermediate",
-  },
 ];
 
 const pull2Exercises: Exercise[] = [
-  // Back isolation and grip focused exercises
-  {
-    id: "pull2-1",
-    name: "Archer Pull-Up",
-    category: "back",
-    difficulty: "Advanced",
-  },
+  // Beginner
   {
     id: "pull2-2",
     name: "Scapular Pull Downs",
     category: "back",
     difficulty: "Beginner",
-  },
-  {
-    id: "pull2-3",
-    name: "Reverse Shrugs on Chair",
-    category: "back",
-    difficulty: "Intermediate",
   },
   {
     id: "pull2-4",
@@ -1445,16 +1439,38 @@ const pull2Exercises: Exercise[] = [
     difficulty: "Beginner",
   },
   {
-    id: "pull2-5",
-    name: "Isometric Shrug Hold",
-    category: "back",
-    difficulty: "Intermediate",
-  },
-  {
     id: "pull2-6",
     name: "Wall Scapular Retractions",
     category: "back",
     difficulty: "Beginner",
+  },
+  { id: "pull2-9", name: "Bird Dog", category: "back", difficulty: "Beginner" },
+  { id: "pull2-11", name: "Cow-Cat", category: "back", difficulty: "Beginner" },
+  {
+    id: "pull2-14",
+    name: "Wall Wrist Flexor Stretch",
+    category: "arms",
+    difficulty: "Beginner",
+  },
+  {
+    id: "pull2-15",
+    name: "Wrist Circles",
+    category: "arms",
+    difficulty: "Beginner",
+  },
+
+  // Intermediate
+  {
+    id: "pull2-3",
+    name: "Reverse Shrugs on Chair",
+    category: "back",
+    difficulty: "Intermediate",
+  },
+  {
+    id: "pull2-5",
+    name: "Isometric Shrug Hold",
+    category: "back",
+    difficulty: "Intermediate",
   },
   {
     id: "pull2-7",
@@ -1468,19 +1484,11 @@ const pull2Exercises: Exercise[] = [
     category: "back",
     difficulty: "Intermediate",
   },
-  { id: "pull2-9", name: "Bird Dog", category: "back", difficulty: "Beginner" },
   {
     id: "pull2-10",
     name: "Leg Pull",
     category: "back",
     difficulty: "Intermediate",
-  },
-  { id: "pull2-11", name: "Cow-Cat", category: "back", difficulty: "Beginner" },
-  {
-    id: "pull2-12",
-    name: "Fingertip Push-Up",
-    category: "arms",
-    difficulty: "Advanced",
   },
   {
     id: "pull2-13",
@@ -1489,58 +1497,30 @@ const pull2Exercises: Exercise[] = [
     difficulty: "Intermediate",
   },
   {
-    id: "pull2-14",
-    name: "Wall Wrist Flexor Stretch",
-    category: "arms",
-    difficulty: "Beginner",
-  },
-  {
-    id: "pull2-15",
-    name: "Wrist Circles",
-    category: "arms",
-    difficulty: "Beginner",
-  },
-  {
     id: "pull2-16",
     name: "Scapular Push-Ups",
     category: "back",
     difficulty: "Intermediate",
   },
+
+  // Advanced
+  {
+    id: "pull2-1",
+    name: "Archer Pull-Up",
+    category: "back",
+    difficulty: "Advanced",
+  },
+  {
+    id: "pull2-12",
+    name: "Fingertip Push-Up",
+    category: "arms",
+    difficulty: "Advanced",
+  },
 ];
 
 // LEG DAY 1 - Quad-Dominant + Strength
 const legDay1Exercises: Exercise[] = [
-  // Warm-Up
-  {
-    id: "leg1-1",
-    name: "Wall Sit March",
-    category: "legs",
-    difficulty: "Intermediate",
-    section: "Warm-Up",
-  },
-  {
-    id: "leg1-2",
-    name: "Copenhagen Plank Hold",
-    category: "legs",
-    difficulty: "Advanced",
-    section: "Warm-Up",
-  },
-  {
-    id: "leg1-3",
-    name: "Lateral Step-Overs",
-    category: "legs",
-    difficulty: "Intermediate",
-    section: "Warm-Up",
-  },
-
-  // Primary Compounds
-  {
-    id: "leg1-4",
-    name: "Bulgarian Split Squats",
-    category: "legs",
-    difficulty: "Advanced",
-    section: "Primary Compounds",
-  },
+  // Beginner
   {
     id: "leg1-5",
     name: "Bodyweight Squats",
@@ -1556,66 +1536,6 @@ const legDay1Exercises: Exercise[] = [
     section: "Primary Compounds",
   },
   {
-    id: "leg1-7",
-    name: "Elevated Front Foot Split Squats",
-    category: "legs",
-    difficulty: "Advanced",
-    section: "Primary Compounds",
-  },
-
-  // Quads Strength & Variations
-  {
-    id: "leg1-8",
-    name: "Jump Squats",
-    category: "legs",
-    difficulty: "Intermediate",
-    section: "Quads Strength & Variations",
-  },
-  {
-    id: "leg1-9",
-    name: "Heel Elevated Squats",
-    category: "legs",
-    difficulty: "Intermediate",
-    section: "Quads Strength & Variations",
-  },
-  {
-    id: "leg1-10",
-    name: "Sissy Squats",
-    category: "legs",
-    difficulty: "Advanced",
-    section: "Quads Strength & Variations",
-  },
-  {
-    id: "leg1-11",
-    name: "Low Pulse Squat",
-    category: "legs",
-    difficulty: "Intermediate",
-    section: "Quads Strength & Variations",
-  },
-  {
-    id: "leg1-12",
-    name: "Deep Knee Bends (ATG Squat)",
-    category: "legs",
-    difficulty: "Advanced",
-    section: "Quads Strength & Variations",
-  },
-  {
-    id: "leg1-13",
-    name: "Kneel to Stand",
-    category: "legs",
-    difficulty: "Intermediate",
-    section: "Quads Strength & Variations",
-  },
-  {
-    id: "leg1-14",
-    name: "Hover Lunges",
-    category: "legs",
-    difficulty: "Intermediate",
-    section: "Quads Strength & Variations",
-  },
-
-  // Lunge Family
-  {
     id: "leg1-15",
     name: "Forward Lunges",
     category: "legs",
@@ -1630,36 +1550,6 @@ const legDay1Exercises: Exercise[] = [
     section: "Lunge Family",
   },
   {
-    id: "leg1-17",
-    name: "Step-Back Lunges",
-    category: "legs",
-    difficulty: "Intermediate",
-    section: "Lunge Family",
-  },
-  {
-    id: "leg1-18",
-    name: "Step-Back Lunge with Forward Lean",
-    category: "legs",
-    difficulty: "Intermediate",
-    section: "Lunge Family",
-  },
-
-  // Hamstring / Hip Hinge
-  {
-    id: "leg1-19",
-    name: "Good Mornings",
-    category: "legs",
-    difficulty: "Intermediate",
-    section: "Hamstring / Hip Hinge",
-  },
-  {
-    id: "leg1-20",
-    name: "Single-Leg Romanian Deadlift",
-    category: "legs",
-    difficulty: "Advanced",
-    section: "Hamstring / Hip Hinge",
-  },
-  {
     id: "leg1-21",
     name: "Hamstring Bridge",
     category: "legs",
@@ -1667,33 +1557,10 @@ const legDay1Exercises: Exercise[] = [
     section: "Hamstring / Hip Hinge",
   },
   {
-    id: "leg1-22",
-    name: "Reverse Nordic Curls",
-    category: "legs",
-    difficulty: "Advanced",
-    section: "Hamstring / Hip Hinge",
-  },
-
-  // Glutes & Bridges
-  {
     id: "leg1-23",
     name: "Basic Glute Bridge",
     category: "legs",
     difficulty: "Beginner",
-    section: "Glutes & Bridges",
-  },
-  {
-    id: "leg1-24",
-    name: "Elevated Glute Bridge",
-    category: "legs",
-    difficulty: "Intermediate",
-    section: "Glutes & Bridges",
-  },
-  {
-    id: "leg1-25",
-    name: "Single-Leg Glute Bridge",
-    category: "legs",
-    difficulty: "Advanced",
     section: "Glutes & Bridges",
   },
   {
@@ -1718,20 +1585,125 @@ const legDay1Exercises: Exercise[] = [
     section: "Glutes & Bridges",
   },
   {
-    id: "leg1-29",
-    name: "Wall Glute March",
-    category: "legs",
-    difficulty: "Intermediate",
-    section: "Glutes & Bridges",
-  },
-
-  // Calves
-  {
     id: "leg1-30",
     name: "Standing Calf Raises",
     category: "legs",
     difficulty: "Beginner",
     section: "Calves",
+  },
+  {
+    id: "leg1-34",
+    name: "Toe Walking",
+    category: "legs",
+    difficulty: "Beginner",
+    section: "Calves",
+  },
+  {
+    id: "leg1-35",
+    name: "Seated Butterfly",
+    category: "legs",
+    difficulty: "Beginner",
+    section: "Core & Finishers",
+  },
+  {
+    id: "leg1-36",
+    name: "Inner Thigh Lift",
+    category: "legs",
+    difficulty: "Beginner",
+    section: "Core & Finishers",
+  },
+  {
+    id: "leg1-40",
+    name: "Wall Sit",
+    category: "legs",
+    difficulty: "Beginner",
+    section: "Core & Finishers",
+  },
+
+  // Intermediate
+  {
+    id: "leg1-1",
+    name: "Wall Sit March",
+    category: "legs",
+    difficulty: "Intermediate",
+    section: "Warm-Up",
+  },
+  {
+    id: "leg1-3",
+    name: "Lateral Step-Overs",
+    category: "legs",
+    difficulty: "Intermediate",
+    section: "Warm-Up",
+  },
+  {
+    id: "leg1-8",
+    name: "Jump Squats",
+    category: "legs",
+    difficulty: "Intermediate",
+    section: "Quads Strength & Variations",
+  },
+  {
+    id: "leg1-9",
+    name: "Heel Elevated Squats",
+    category: "legs",
+    difficulty: "Intermediate",
+    section: "Quads Strength & Variations",
+  },
+  {
+    id: "leg1-11",
+    name: "Low Pulse Squat",
+    category: "legs",
+    difficulty: "Intermediate",
+    section: "Quads Strength & Variations",
+  },
+  {
+    id: "leg1-13",
+    name: "Kneel to Stand",
+    category: "legs",
+    difficulty: "Intermediate",
+    section: "Quads Strength & Variations",
+  },
+  {
+    id: "leg1-14",
+    name: "Hover Lunges",
+    category: "legs",
+    difficulty: "Intermediate",
+    section: "Quads Strength & Variations",
+  },
+  {
+    id: "leg1-17",
+    name: "Step-Back Lunges",
+    category: "legs",
+    difficulty: "Intermediate",
+    section: "Lunge Family",
+  },
+  {
+    id: "leg1-18",
+    name: "Step-Back Lunge with Forward Lean",
+    category: "legs",
+    difficulty: "Intermediate",
+    section: "Lunge Family",
+  },
+  {
+    id: "leg1-19",
+    name: "Good Mornings",
+    category: "legs",
+    difficulty: "Intermediate",
+    section: "Hamstring / Hip Hinge",
+  },
+  {
+    id: "leg1-24",
+    name: "Elevated Glute Bridge",
+    category: "legs",
+    difficulty: "Intermediate",
+    section: "Glutes & Bridges",
+  },
+  {
+    id: "leg1-29",
+    name: "Wall Glute March",
+    category: "legs",
+    difficulty: "Intermediate",
+    section: "Glutes & Bridges",
   },
   {
     id: "leg1-31",
@@ -1755,29 +1727,6 @@ const legDay1Exercises: Exercise[] = [
     section: "Calves",
   },
   {
-    id: "leg1-34",
-    name: "Toe Walking",
-    category: "legs",
-    difficulty: "Beginner",
-    section: "Calves",
-  },
-
-  // Core & Finishers
-  {
-    id: "leg1-35",
-    name: "Seated Butterfly",
-    category: "legs",
-    difficulty: "Beginner",
-    section: "Core & Finishers",
-  },
-  {
-    id: "leg1-36",
-    name: "Inner Thigh Lift",
-    category: "legs",
-    difficulty: "Beginner",
-    section: "Core & Finishers",
-  },
-  {
     id: "leg1-37",
     name: "Standing Adduction",
     category: "legs",
@@ -1798,144 +1747,75 @@ const legDay1Exercises: Exercise[] = [
     difficulty: "Intermediate",
     section: "Core & Finishers",
   },
+
+  // Advanced
   {
-    id: "leg1-40",
-    name: "Wall Sit",
+    id: "leg1-2",
+    name: "Copenhagen Plank Hold",
     category: "legs",
-    difficulty: "Beginner",
-    section: "Core & Finishers",
+    difficulty: "Advanced",
+    section: "Warm-Up",
+  },
+  {
+    id: "leg1-4",
+    name: "Bulgarian Split Squats",
+    category: "legs",
+    difficulty: "Advanced",
+    section: "Primary Compounds",
+  },
+  {
+    id: "leg1-7",
+    name: "Elevated Front Foot Split Squats",
+    category: "legs",
+    difficulty: "Advanced",
+    section: "Primary Compounds",
+  },
+  {
+    id: "leg1-10",
+    name: "Sissy Squats",
+    category: "legs",
+    difficulty: "Advanced",
+    section: "Quads Strength & Variations",
+  },
+  {
+    id: "leg1-12",
+    name: "Deep Knee Bends (ATG Squat)",
+    category: "legs",
+    difficulty: "Advanced",
+    section: "Quads Strength & Variations",
+  },
+  {
+    id: "leg1-20",
+    name: "Single-Leg Romanian Deadlift",
+    category: "legs",
+    difficulty: "Advanced",
+    section: "Hamstring / Hip Hinge",
+  },
+  {
+    id: "leg1-22",
+    name: "Reverse Nordic Curls",
+    category: "legs",
+    difficulty: "Advanced",
+    section: "Hamstring / Hip Hinge",
+  },
+  {
+    id: "leg1-25",
+    name: "Single-Leg Glute Bridge",
+    category: "legs",
+    difficulty: "Advanced",
+    section: "Glutes & Bridges",
   },
 ];
 
 // LEG DAY 2 - Glute/Posterior/Explosive Focus
 const legDay2Exercises: Exercise[] = [
-  // Warm-Up
-  {
-    id: "leg2-1",
-    name: "Wall Sit with Arm Raise",
-    category: "legs",
-    difficulty: "Intermediate",
-    section: "Warm-Up",
-  },
-  {
-    id: "leg2-2",
-    name: "Lateral Squats",
-    category: "legs",
-    difficulty: "Intermediate",
-    section: "Warm-Up",
-  },
+  // Beginner
   {
     id: "leg2-3",
     name: "Hip Extension",
     category: "legs",
     difficulty: "Beginner",
     section: "Warm-Up",
-  },
-
-  // Primary Compounds
-  {
-    id: "leg2-4",
-    name: "Step-Ups",
-    category: "legs",
-    difficulty: "Intermediate",
-    section: "Primary Compounds",
-  },
-  {
-    id: "leg2-5",
-    name: "Skater Squats",
-    category: "legs",
-    difficulty: "Advanced",
-    section: "Primary Compounds",
-  },
-  {
-    id: "leg2-6",
-    name: "Hover Lunges",
-    category: "legs",
-    difficulty: "Intermediate",
-    section: "Primary Compounds",
-  },
-  {
-    id: "leg2-7",
-    name: "Side Lunge to Knee Drive",
-    category: "legs",
-    difficulty: "Intermediate",
-    section: "Primary Compounds",
-  },
-
-  // Athletic & Explosive
-  {
-    id: "leg2-8",
-    name: "Explosive Jumps",
-    category: "legs",
-    difficulty: "Advanced",
-    section: "Athletic & Explosive",
-  },
-  {
-    id: "leg2-9",
-    name: "Pistol Squat",
-    category: "legs",
-    difficulty: "Advanced",
-    section: "Athletic & Explosive",
-  },
-  {
-    id: "leg2-10",
-    name: "Hindu Squat",
-    category: "legs",
-    difficulty: "Intermediate",
-    section: "Athletic & Explosive",
-  },
-
-  // Lunge Variations
-  {
-    id: "leg2-11",
-    name: "Reverse Lunge to Knee Drive",
-    category: "legs",
-    difficulty: "Intermediate",
-    section: "Lunge Variations",
-  },
-  {
-    id: "leg2-12",
-    name: "Curtsy Lunges",
-    category: "legs",
-    difficulty: "Intermediate",
-    section: "Lunge Variations",
-  },
-  {
-    id: "leg2-13",
-    name: "Elevated Curtsy Lunge",
-    category: "legs",
-    difficulty: "Advanced",
-    section: "Lunge Variations",
-  },
-  {
-    id: "leg2-14",
-    name: "Reverse Leg Lift",
-    category: "legs",
-    difficulty: "Intermediate",
-    section: "Lunge Variations",
-  },
-
-  // Glutes Bridges & Hip Thrusts
-  {
-    id: "leg2-15",
-    name: "Hip Thrust",
-    category: "legs",
-    difficulty: "Intermediate",
-    section: "Glutes Bridges & Hip Thrusts",
-  },
-  {
-    id: "leg2-16",
-    name: "Single-Leg Hip Thrust",
-    category: "legs",
-    difficulty: "Advanced",
-    section: "Glutes Bridges & Hip Thrusts",
-  },
-  {
-    id: "leg2-17",
-    name: "Glute Bridge March",
-    category: "legs",
-    difficulty: "Intermediate",
-    section: "Glutes Bridges & Hip Thrusts",
   },
   {
     id: "leg2-18",
@@ -1945,34 +1825,11 @@ const legDay2Exercises: Exercise[] = [
     section: "Glutes Bridges & Hip Thrusts",
   },
   {
-    id: "leg2-19",
-    name: "Kneeling Squats",
-    category: "legs",
-    difficulty: "Intermediate",
-    section: "Glutes Bridges & Hip Thrusts",
-  },
-  {
     id: "leg2-20",
     name: "Wall Kickbacks",
     category: "legs",
     difficulty: "Beginner",
     section: "Glutes Bridges & Hip Thrusts",
-  },
-
-  // Hamstring & Hip Hinge
-  {
-    id: "leg2-21",
-    name: "Double Leg Hamstring Slides",
-    category: "legs",
-    difficulty: "Intermediate",
-    section: "Hamstring & Hip Hinge",
-  },
-  {
-    id: "leg2-22",
-    name: "Single-Leg Good Morning",
-    category: "legs",
-    difficulty: "Advanced",
-    section: "Hamstring & Hip Hinge",
   },
   {
     id: "leg2-23",
@@ -1996,14 +1853,119 @@ const legDay2Exercises: Exercise[] = [
     section: "Hamstring & Hip Hinge",
   },
   {
+    id: "leg2-31",
+    name: "Wall Calf Raises",
+    category: "legs",
+    difficulty: "Beginner",
+    section: "Calves Focus",
+  },
+  {
+    id: "leg2-38",
+    name: "Toe Walking",
+    category: "legs",
+    difficulty: "Beginner",
+    section: "Mobility & Finishers",
+  },
+
+  // Intermediate
+  {
+    id: "leg2-1",
+    name: "Wall Sit with Arm Raise",
+    category: "legs",
+    difficulty: "Intermediate",
+    section: "Warm-Up",
+  },
+  {
+    id: "leg2-2",
+    name: "Lateral Squats",
+    category: "legs",
+    difficulty: "Intermediate",
+    section: "Warm-Up",
+  },
+  {
+    id: "leg2-4",
+    name: "Step-Ups",
+    category: "legs",
+    difficulty: "Intermediate",
+    section: "Primary Compounds",
+  },
+  {
+    id: "leg2-6",
+    name: "Hover Lunges",
+    category: "legs",
+    difficulty: "Intermediate",
+    section: "Primary Compounds",
+  },
+  {
+    id: "leg2-7",
+    name: "Side Lunge to Knee Drive",
+    category: "legs",
+    difficulty: "Intermediate",
+    section: "Primary Compounds",
+  },
+  {
+    id: "leg2-10",
+    name: "Hindu Squat",
+    category: "legs",
+    difficulty: "Intermediate",
+    section: "Athletic & Explosive",
+  },
+  {
+    id: "leg2-11",
+    name: "Reverse Lunge to Knee Drive",
+    category: "legs",
+    difficulty: "Intermediate",
+    section: "Lunge Variations",
+  },
+  {
+    id: "leg2-12",
+    name: "Curtsy Lunges",
+    category: "legs",
+    difficulty: "Intermediate",
+    section: "Lunge Variations",
+  },
+  {
+    id: "leg2-14",
+    name: "Reverse Leg Lift",
+    category: "legs",
+    difficulty: "Intermediate",
+    section: "Lunge Variations",
+  },
+  {
+    id: "leg2-15",
+    name: "Hip Thrust",
+    category: "legs",
+    difficulty: "Intermediate",
+    section: "Glutes Bridges & Hip Thrusts",
+  },
+  {
+    id: "leg2-17",
+    name: "Glute Bridge March",
+    category: "legs",
+    difficulty: "Intermediate",
+    section: "Glutes Bridges & Hip Thrusts",
+  },
+  {
+    id: "leg2-19",
+    name: "Kneeling Squats",
+    category: "legs",
+    difficulty: "Intermediate",
+    section: "Glutes Bridges & Hip Thrusts",
+  },
+  {
+    id: "leg2-21",
+    name: "Double Leg Hamstring Slides",
+    category: "legs",
+    difficulty: "Intermediate",
+    section: "Hamstring & Hip Hinge",
+  },
+  {
     id: "leg2-26",
     name: "Superman",
     category: "legs",
     difficulty: "Intermediate",
     section: "Hamstring & Hip Hinge",
   },
-
-  // Calves Focus
   {
     id: "leg2-27",
     name: "Paused Calf Raises",
@@ -2033,33 +1995,10 @@ const legDay2Exercises: Exercise[] = [
     section: "Calves Focus",
   },
   {
-    id: "leg2-31",
-    name: "Wall Calf Raises",
-    category: "legs",
-    difficulty: "Beginner",
-    section: "Calves Focus",
-  },
-  {
-    id: "leg2-32",
-    name: "Donkey Calf Raises",
-    category: "legs",
-    difficulty: "Advanced",
-    section: "Calves Focus",
-  },
-
-  // Bridges & Core Stability
-  {
     id: "leg2-33",
     name: "Frog Squats",
     category: "legs",
     difficulty: "Intermediate",
-    section: "Bridges & Core Stability",
-  },
-  {
-    id: "leg2-34",
-    name: "Cossack Squats",
-    category: "legs",
-    difficulty: "Advanced",
     section: "Bridges & Core Stability",
   },
   {
@@ -2085,15 +2024,6 @@ const legDay2Exercises: Exercise[] = [
     difficulty: "Intermediate",
     section: "Bridges & Core Stability",
   },
-
-  // Mobility & Finishers
-  {
-    id: "leg2-38",
-    name: "Toe Walking",
-    category: "legs",
-    difficulty: "Beginner",
-    section: "Mobility & Finishers",
-  },
   {
     id: "leg2-39",
     name: "Farmer Walking",
@@ -2108,10 +2038,89 @@ const legDay2Exercises: Exercise[] = [
     difficulty: "Intermediate",
     section: "Mobility & Finishers",
   },
+
+  // Advanced
+  {
+    id: "leg2-5",
+    name: "Skater Squats",
+    category: "legs",
+    difficulty: "Advanced",
+    section: "Primary Compounds",
+  },
+  {
+    id: "leg2-8",
+    name: "Explosive Jumps",
+    category: "legs",
+    difficulty: "Advanced",
+    section: "Athletic & Explosive",
+  },
+  {
+    id: "leg2-9",
+    name: "Pistol Squat",
+    category: "legs",
+    difficulty: "Advanced",
+    section: "Athletic & Explosive",
+  },
+  {
+    id: "leg2-13",
+    name: "Elevated Curtsy Lunge",
+    category: "legs",
+    difficulty: "Advanced",
+    section: "Lunge Variations",
+  },
+  {
+    id: "leg2-16",
+    name: "Single-Leg Hip Thrust",
+    category: "legs",
+    difficulty: "Advanced",
+    section: "Glutes Bridges & Hip Thrusts",
+  },
+  {
+    id: "leg2-22",
+    name: "Single-Leg Good Morning",
+    category: "legs",
+    difficulty: "Advanced",
+    section: "Hamstring & Hip Hinge",
+  },
+  {
+    id: "leg2-32",
+    name: "Donkey Calf Raises",
+    category: "legs",
+    difficulty: "Advanced",
+    section: "Calves Focus",
+  },
+  {
+    id: "leg2-34",
+    name: "Cossack Squats",
+    category: "legs",
+    difficulty: "Advanced",
+    section: "Bridges & Core Stability",
+  },
 ];
 
 // SUNDAY - ABS/CORE DAY
 const sundayCoreExercises: Exercise[] = [
+  // Beginner
+  {
+    id: "core-sun-21",
+    name: "Standing Oblique Crunch",
+    category: "core",
+    difficulty: "Beginner",
+  },
+  {
+    id: "core-sun-26",
+    name: "Dead Bug",
+    category: "core",
+    difficulty: "Beginner",
+  },
+  {
+    id: "core-sun-27",
+    name: "Heel Touch",
+    category: "core",
+    difficulty: "Beginner",
+  },
+
+  // Intermediate
   {
     id: "core-sun-1",
     name: "Hollow Body Hold",
@@ -2121,24 +2130,10 @@ const sundayCoreExercises: Exercise[] = [
     defaultDuration: 30,
   },
   {
-    id: "core-sun-2",
-    name: "Hollow Body Flutter Kicks",
-    category: "core",
-    difficulty: "Advanced",
-  },
-  {
     id: "core-sun-3",
     name: "Boat Pose Hold",
     category: "core",
     difficulty: "Intermediate",
-    timerType: "hold",
-    defaultDuration: 30,
-  },
-  {
-    id: "core-sun-4",
-    name: "Tuck Planche",
-    category: "core",
-    difficulty: "Advanced",
     timerType: "hold",
     defaultDuration: 30,
   },
@@ -2161,22 +2156,10 @@ const sundayCoreExercises: Exercise[] = [
     difficulty: "Intermediate",
   },
   {
-    id: "core-sun-8",
-    name: "Leg Raise + Hip Lifts",
-    category: "core",
-    difficulty: "Advanced",
-  },
-  {
     id: "core-sun-9",
     name: "Reverse Crunches",
     category: "core",
     difficulty: "Intermediate",
-  },
-  {
-    id: "core-sun-10",
-    name: "Lying Ab Circles",
-    category: "core",
-    difficulty: "Advanced",
   },
   {
     id: "core-sun-11",
@@ -2197,28 +2180,10 @@ const sundayCoreExercises: Exercise[] = [
     difficulty: "Intermediate",
   },
   {
-    id: "core-sun-14",
-    name: "V-Ups",
-    category: "core",
-    difficulty: "Advanced",
-  },
-  {
-    id: "core-sun-15",
-    name: "Cross Body V-Ups",
-    category: "core",
-    difficulty: "Advanced",
-  },
-  {
     id: "core-sun-16",
     name: "Mountain Climbers",
     category: "core",
     difficulty: "Intermediate",
-  },
-  {
-    id: "core-sun-17",
-    name: "Side Plank Dips",
-    category: "core",
-    difficulty: "Advanced",
   },
   {
     id: "core-sun-18",
@@ -2227,34 +2192,10 @@ const sundayCoreExercises: Exercise[] = [
     difficulty: "Intermediate",
   },
   {
-    id: "core-sun-19",
-    name: "Oblique V-Ups",
-    category: "core",
-    difficulty: "Advanced",
-  },
-  {
-    id: "core-sun-20",
-    name: "Lying Windshield Wiper",
-    category: "core",
-    difficulty: "Advanced",
-  },
-  {
-    id: "core-sun-21",
-    name: "Standing Oblique Crunch",
-    category: "core",
-    difficulty: "Beginner",
-  },
-  {
     id: "core-sun-22",
     name: "Standing Crunch to Knee Drive",
     category: "core",
     difficulty: "Intermediate",
-  },
-  {
-    id: "core-sun-23",
-    name: "Twisted Bear Crawl",
-    category: "core",
-    difficulty: "Advanced",
   },
   {
     id: "core-sun-24",
@@ -2270,17 +2211,69 @@ const sundayCoreExercises: Exercise[] = [
     timerType: "hold",
     defaultDuration: 30,
   },
+
+  // Advanced
   {
-    id: "core-sun-26",
-    name: "Dead Bug",
+    id: "core-sun-2",
+    name: "Hollow Body Flutter Kicks",
     category: "core",
-    difficulty: "Beginner",
+    difficulty: "Advanced",
   },
   {
-    id: "core-sun-27",
-    name: "Heel Touch",
+    id: "core-sun-4",
+    name: "Tuck Planche",
     category: "core",
-    difficulty: "Beginner",
+    difficulty: "Advanced",
+    timerType: "hold",
+    defaultDuration: 30,
+  },
+  {
+    id: "core-sun-8",
+    name: "Leg Raise + Hip Lifts",
+    category: "core",
+    difficulty: "Advanced",
+  },
+  {
+    id: "core-sun-10",
+    name: "Lying Ab Circles",
+    category: "core",
+    difficulty: "Advanced",
+  },
+  {
+    id: "core-sun-14",
+    name: "V-Ups",
+    category: "core",
+    difficulty: "Advanced",
+  },
+  {
+    id: "core-sun-15",
+    name: "Cross Body V-Ups",
+    category: "core",
+    difficulty: "Advanced",
+  },
+  {
+    id: "core-sun-17",
+    name: "Side Plank Dips",
+    category: "core",
+    difficulty: "Advanced",
+  },
+  {
+    id: "core-sun-19",
+    name: "Oblique V-Ups",
+    category: "core",
+    difficulty: "Advanced",
+  },
+  {
+    id: "core-sun-20",
+    name: "Lying Windshield Wiper",
+    category: "core",
+    difficulty: "Advanced",
+  },
+  {
+    id: "core-sun-23",
+    name: "Twisted Bear Crawl",
+    category: "core",
+    difficulty: "Advanced",
   },
   {
     id: "core-sun-28",

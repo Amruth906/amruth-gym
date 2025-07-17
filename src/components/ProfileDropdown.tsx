@@ -3,6 +3,7 @@ import { LogOut, ChevronDown } from "lucide-react";
 import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
 import { useAuth } from "../context/AuthContext";
+import { Link } from "react-router-dom";
 
 export const ProfileDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -73,6 +74,15 @@ export const ProfileDropdown = () => {
             </p>
             <p className="text-xs text-gray-500">Signed in</p>
           </div>
+
+          <Link
+            to="/dashboard"
+            className="w-full flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+            onClick={() => setIsOpen(false)}
+          >
+            <span className="w-4 h-4 inline-block">🏠</span>
+            Dashboard
+          </Link>
 
           <button
             onClick={handleLogout}
